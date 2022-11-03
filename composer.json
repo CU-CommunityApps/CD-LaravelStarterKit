@@ -1,0 +1,9 @@
+{
+  "name": "cu-community-apps/cd-laravelstarterkit",
+  "description": "Cornell University Custom Development Laravel Starter Kit",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "require": {
+    "livewire/livewire": "^2.10"
+  }
+}
