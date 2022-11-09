@@ -4,6 +4,7 @@
     bootstrap="vendor/autoload.php"
     colors="true"
     verbose="true"
+    testdox="true"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
 >
     <coverage>

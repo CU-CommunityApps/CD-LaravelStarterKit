@@ -10,11 +10,9 @@ class InstallStarterKitTest extends TestCase
 {
     public function testCanRunInstall()
     {
-        $expectedProjectName = 'Test Project';
-
         $this->artisan('starterkit:install')
             ->expectsConfirmation('Use Starter Kit README.md and .lando.yml files?', 'yes')
-            ->expectsQuestion('Project name?', $expectedProjectName)
+            ->expectsQuestion('Project name', 'Test Project')
             ->expectsOutputToContain('Installation complete.')
             ->assertExitCode(0);
     }
@@ -27,14 +25,14 @@ class InstallStarterKitTest extends TestCase
 
         $this->artisan('starterkit:install')
             ->expectsConfirmation('Use Starter Kit README.md and .lando.yml files?', 'yes')
-            ->expectsQuestion('Project name?', $firstProjectName);
+            ->expectsQuestion('Project name', $firstProjectName);
         $contents = File::get($basePath . '/README.md');
 
         $this->assertStringContainsString($firstProjectName, $contents);
 
         $this->artisan('starterkit:install')
             ->expectsConfirmation('Use Starter Kit README.md and .lando.yml files?', 'yes')
-            ->expectsQuestion('Project name?', $secondProjectName);
+            ->expectsQuestion('Project name', $secondProjectName);
         $readmeContents = File::get($basePath . '/README.md');
         $landoContents = File::get($basePath . '/.lando.yml');
 

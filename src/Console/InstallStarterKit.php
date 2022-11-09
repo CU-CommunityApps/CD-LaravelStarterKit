@@ -28,7 +28,7 @@ class InstallStarterKit extends Command
         );
 
         if ($shouldInstallFiles) {
-            $projectName = $this->ask('Project name?');
+            $projectName = $this->ask('Project name', Str::title(File::basename(base_path())));
             $this->publishFiles();
             $this->populatePlaceholders($projectName);
         }
@@ -42,7 +42,7 @@ class InstallStarterKit extends Command
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => 'setup',
+                '--tag' => 'starterkit:install',
                 '--force' => true,
             ]
         );

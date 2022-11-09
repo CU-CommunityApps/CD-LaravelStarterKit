@@ -18,7 +18,7 @@ class StarterKitServiceProvider extends ServiceProvider
                 ->mapWithKeys(fn($file) => [
                     __DIR__ . "/../project/$file" => base_path($file),
                 ])->toArray();
-            $this->publishes($paths, 'setup');
+            $this->publishes($paths, 'starterkit:install');
         }
     }
 
