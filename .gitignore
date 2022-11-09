@@ -1,3 +1,4 @@
 *.local.*
 /composer.lock
 /vendor
+/.phpunit.result.cache
