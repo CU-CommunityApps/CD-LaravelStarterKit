@@ -30,7 +30,7 @@
 Local development of CD-LaravelStarterKit requires an environment with php, composer, and git. The `.lando.yml` provided in this package can set up that environment in Docker (run `lando start`) and then a shell with that environment can be used by running `lando ssh`.
 
 ### Testing
-Automated testing is configured in phpunit.xml and can be run with
+Automated testing using [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html) can be run with
   ```shell
   lando phpunit
   ```
@@ -44,7 +44,7 @@ Testing utilizes the [Orchestral Testbench](https://github.com/orchestral/testbe
 Configuration for PHPUnit is in `.phpunit.xml`.
 
 ### Code style and linting
-Code styling uses [Laravel Pint](https://laravel.com/docs/9.x/pint) and can be run with
+Code linting using [Laravel Pint](https://laravel.com/docs/9.x/pint) can be run with
   ```shell
   lando pint
   ```
