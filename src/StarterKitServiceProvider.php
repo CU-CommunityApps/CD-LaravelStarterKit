@@ -15,8 +15,8 @@ class StarterKitServiceProvider extends ServiceProvider
             ]);
 
             $paths = collect(InstallStarterKit::INSTALL_FILES)
-                ->mapWithKeys(fn($file) => [
-                    __DIR__ . "/../project/$file" => base_path($file),
+                ->mapWithKeys(fn ($file) => [
+                    __DIR__."/../project/$file" => base_path($file),
                 ])->toArray();
             $this->publishes($paths, 'starterkit:install');
         }

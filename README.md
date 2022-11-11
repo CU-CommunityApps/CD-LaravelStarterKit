@@ -31,7 +31,12 @@ Local development of CD-LaravelStarterKit requires an environment with php, comp
 
 Automated testing is configured in phpunit.xml and can be run with
   ```shell
-  php ./vendor/bin/phpunit
+  lando phpunit
   ```
 
 Testing utilizes the [Orchestral Testbench](https://github.com/orchestral/testbench), which creates a basic Laravel install at `vendor/orchestra/testbench-core/laravel` and runs tests in that environment.
+
+Code styling uses [Laravel Pint](https://laravel.com/docs/9.x/pint) and can be run with
+  ```shell
+  lando pint
+  ```

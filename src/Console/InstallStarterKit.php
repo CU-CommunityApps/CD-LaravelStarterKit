@@ -67,5 +67,4 @@ class InstallStarterKit extends Command
             File::put(base_path($file), $newContents);
         }
     }
-
 }
