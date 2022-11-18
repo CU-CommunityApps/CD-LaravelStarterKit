@@ -47,12 +47,31 @@ The Laravel Starter Kit is a package, so the development and use of it is not th
 
 Local development of CD-LaravelStarterKit requires an environment with php, composer, and git. The `.lando.yml` provided in this package can set up that environment in Docker (run `lando start`) and then a shell with that environment can be used by running `lando ssh`.
 
-Automated testing is configured in phpunit.xml and can be run with
+### Testing
+Automated testing using [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html) can be run with
+  ```shell
+  lando phpunit
+  ```
+or
   ```shell
   php ./vendor/bin/phpunit
   ```
 
-Testing utilizes the [Orchestral Testbench](https://github.com/orchestral/testbench), which creates a basic Laravel install at `vendor/orchestra/testbench-core/laravel` and runs tests in that environment.
+Testing utilizes the [Orchestral Testbench](https://github.com/orchestral/testbench), which creates a basic Laravel install at `vendor/orchestra/testbench-core/laravel` and runs tests in that environment. 
+
+Configuration for PHPUnit is in `.phpunit.xml`.
+
+### Code style and linting
+Code linting using [Laravel Pint](https://laravel.com/docs/9.x/pint) can be run with
+  ```shell
+  lando pint
+  ```
+or
+  ```shell
+  php ./vendor/bin/pint
+  ```
+
+Configuration for Pint is in `pint.json`.
 
 ### Development Standards
 In order to support working collaboratively, PHP and Laravel standards should be applied, ideally in ways that are quick and automatic.

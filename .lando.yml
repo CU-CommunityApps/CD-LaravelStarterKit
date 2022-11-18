@@ -4,3 +4,11 @@ config:
   webroot: ./public
   php: 8.1
   composer_version: 2-latest
+
+tooling:
+  phpunit:
+    service: appserver
+    description: "Run PHP Unit tests: lando phpunit"
+  pint:
+    service: appserver
+    description: "Run Laravel Pint: lando pint"
