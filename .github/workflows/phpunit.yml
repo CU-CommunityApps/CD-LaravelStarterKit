@@ -21,7 +21,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup cache environment
+      - name: Setup PHP cache environment
+        if: {{ matrix.os == 'windows-latest' }}
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
@@ -30,6 +31,7 @@ jobs:
           key: ${{ env.key }}
 
       - name: Cache extensions
+        if: {{ matrix.os == 'windows-latest' }}
         uses: actions/cache@v3
         with:
           path: ${{ steps.extcache.outputs.dir }}
