@@ -3,7 +3,6 @@
 namespace CUCustomDev\LaravelStarterKit\Console;
 
 use CUCustomDev\LaravelStarterKit\StarterKitServiceProvider;
-
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

@@ -71,7 +71,7 @@ or
   php ./vendor/bin/pint
   ```
 
-Configuration for Pint is in `pint.json`.
+Configuration for Pint is in `pint.json`. Use `--test` option to have errors reported without having fixes applied.
 
 ### Development Standards
 In order to support working collaboratively, PHP and Laravel standards should be applied, ideally in ways that are quick and automatic.
