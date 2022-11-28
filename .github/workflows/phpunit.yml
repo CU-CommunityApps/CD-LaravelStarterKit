@@ -2,47 +2,26 @@ name: PHPUnit Tests
 on: pull_request
 jobs:
   phpunit:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
         php: [8.1]
         stability: [prefer-stable]
         include:
           - laravel: 9.*
             testbench: 7.*
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
-    env:
-      extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite3, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, fileinfo
-      key: cache-v0
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Setup PHP cache environment
-        if: ${{ matrix.os == 'windows-latest' }}
-        id: extcache
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: ${{ env.extensions }}
-          key: ${{ env.key }}
-
-      - name: Cache extensions
-        if: ${{ matrix.os == 'windows-latest' }}
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.extcache.outputs.dir }}
-          key: ${{ steps.extcache.outputs.key }}
-          restore-keys: ${{ steps.extcache.outputs.key }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.extensions }}
+          extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite3, pdo_sqlite, bcmath, soap, intl, fileinfo
           coverage: none
 
       - name: Setup problem matchers
