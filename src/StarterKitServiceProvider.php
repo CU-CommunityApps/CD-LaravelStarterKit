@@ -33,24 +33,26 @@ class StarterKitServiceProvider extends PackageServiceProvider
         $package
             ->name('starterkit')
             ->hasInstallCommand(function(InstallCommand $command) {
-                $command
-                    ->startWith(function(InstallCommand $command) {
-                        $command->info('Installing StarterKit...');
-                        $shouldInstallFiles = $command->confirm(
-                            question: 'Use Starter Kit README.md and .lando.yml files?',
-                            default: true,
-                        );
-
-                        if ($shouldInstallFiles) {
-                            $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
-                            $this->publishFiles($command);
-                            $this->populatePlaceholders($projectName);
-                        }
-                    })
-                    ->endWith(function(InstallCommand $command) {
-                        $command->info('Installation complete.');
-                    });
+                $command->startWith(fn(InstallCommand $c) => $this->install($c));
             });
+    }
+
+    private function install(InstallCommand $command)
+    {
+        $command->info('Installing StarterKit...');
+
+        $shouldInstallFiles = $command->confirm(
+            question: 'Use Starter Kit README.md and .lando.yml files?',
+            default: true,
+        );
+
+        if ($shouldInstallFiles) {
+            $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
+            $this->publishFiles($command);
+            $this->populatePlaceholders($projectName);
+        }
+
+        $command->info('Installation complete.');
     }
 
     private function publishFiles(InstallCommand $command)
