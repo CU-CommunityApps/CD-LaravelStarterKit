@@ -2,7 +2,9 @@
 
 namespace CUCustomDev\LaravelStarterKit\Tests\Feature;
 
+use CUCustomDev\LaravelStarterKit\StarterKitServiceProvider;
 use CUCustomDev\LaravelStarterKit\Tests\TestCase;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -10,11 +12,15 @@ class InstallStarterKitTest extends TestCase
 {
     public function testCanRunInstall()
     {
+        foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
+            File::delete($this->getBasePath().DIRECTORY_SEPARATOR.$filename);
+        }
+
         $this->artisan('starterkit:install')
             ->expectsConfirmation('Use Starter Kit README.md and .lando.yml files?', 'yes')
             ->expectsQuestion('Project name', 'Test Project')
             ->expectsOutputToContain('Installation complete.')
-            ->assertExitCode(0);
+            ->assertExitCode(Command::SUCCESS);
     }
 
     public function testInstallReplacesFiles()
@@ -22,6 +28,10 @@ class InstallStarterKitTest extends TestCase
         $firstProjectName = 'First Project';
         $secondProjectName = 'Second Project';
         $basePath = $this->getBasePath();
+
+        foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
+            File::delete($basePath.DIRECTORY_SEPARATOR.$filename);
+        }
 
         $this->artisan('starterkit:install')
             ->expectsConfirmation('Use Starter Kit README.md and .lando.yml files?', 'yes')
