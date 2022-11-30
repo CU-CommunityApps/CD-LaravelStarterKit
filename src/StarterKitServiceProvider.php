@@ -21,11 +21,11 @@ class StarterKitServiceProvider extends PackageServiceProvider
         parent::boot();
 
         if ($this->app->runningInConsole()) {
-            $paths = collect(self::INSTALL_FILES)
-                ->mapWithKeys(fn ($file) => [
-                    __DIR__."/../project/$file" => base_path($file),
-                ])->toArray();
-            $this->publishes($paths, 'starterkit:install');
+            foreach (self::INSTALL_FILES as $installFileName) {
+                $this->publishes([
+                    __DIR__."/../project/{$installFileName}" => base_path($installFileName),
+                ], "{$this->package->shortName()}-install");
+            }
         }
     }
 
@@ -63,7 +63,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => 'starterkit:install',
+                '--tag' => "{$this->package->shortName()}-install",
                 '--force' => true,
             ]
         );
