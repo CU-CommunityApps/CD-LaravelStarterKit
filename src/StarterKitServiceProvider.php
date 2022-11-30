@@ -54,7 +54,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             $this->populatePlaceholders($projectName);
         }
 
-        $command->info('Installation complete.');
+        $command->info('File installation complete.');
     }
 
     private function publishFiles(InstallCommand $command)

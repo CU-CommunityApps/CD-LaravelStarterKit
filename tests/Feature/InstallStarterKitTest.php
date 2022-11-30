@@ -21,7 +21,7 @@ class InstallStarterKitTest extends TestCase
         $this->artisan('starterkit:install')
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsQuestion('Project name', 'Test Project')
-            ->expectsOutputToContain('Installation complete.')
+            ->expectsOutputToContain('File installation complete.')
             ->assertExitCode(Command::SUCCESS);
     }
 
