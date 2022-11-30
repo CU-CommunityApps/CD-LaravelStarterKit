@@ -2,6 +2,7 @@
 
 namespace CUCustomDev\LaravelStarterKit;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -41,8 +42,9 @@ class StarterKitServiceProvider extends PackageServiceProvider
     {
         $command->info('Installing StarterKit...');
 
+        $file_list = Arr::join(self::INSTALL_FILES, ', ');
         $shouldInstallFiles = $command->confirm(
-            question: 'Use Starter Kit README.md and .lando.yml files?',
+            question: "Use Starter Kit files ($file_list)?",
             default: true,
         );
 
