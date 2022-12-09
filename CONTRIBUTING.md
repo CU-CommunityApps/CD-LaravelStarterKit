@@ -31,7 +31,7 @@ or
   php ./vendor/bin/pint
   ```
 
-Configuration for Pint is in `pint.json`.
+Configuration for Pint is in `pint.json`. Use `--test` option to have errors reported without having fixes applied.
 
 ### Testing
 Automated test coverage is valuable for supporting collaboration on the starter kit. All pull requests must pass unit testing. Tests written for [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html) can be run with
