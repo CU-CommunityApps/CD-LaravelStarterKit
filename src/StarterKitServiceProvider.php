@@ -33,8 +33,8 @@ class StarterKitServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('starterkit')
-            ->hasInstallCommand(function(InstallCommand $command) {
-                $command->startWith(fn(InstallCommand $c) => $this->install($c));
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command->startWith(fn (InstallCommand $c) => $this->install($c));
             });
     }
 
