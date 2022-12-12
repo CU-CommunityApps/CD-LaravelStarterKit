@@ -27,6 +27,8 @@ composer install
 
 You should then confirm that everything is set up properly by running the tests and confirming they pass ([see Testing](#Testing) below).
 
+Since the `vendor` directory is not committed to the repository, it is important to run `composer install` whenever there are dependency updates. This is also a good first step if tests are failing and you have not made any local changes.
+
 ## Development Standards
 Meeting the goals of the Starter Kit includes developing in ways that make it easy to collaborate, maintain, and support our work.
 
