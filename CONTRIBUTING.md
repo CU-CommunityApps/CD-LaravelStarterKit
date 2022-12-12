@@ -11,6 +11,22 @@ The Laravel Starter Kit is a package, so the development and use of it is not th
 
 Local development of CD-LaravelStarterKit requires an environment with php, composer, and git. The `.lando.yml` provided in this package can set up that environment in Docker (run `lando start`) and then a shell with that environment can be used by running `lando ssh`.
 
+### Installing dependencies
+To fully set up your local environment, you will need to install the composer-managed dependencies:
+
+```shell
+lando start
+lando composer install
+```
+
+or, if you have `composer` version 2 installed and up-to-date locally: 
+
+```shell
+composer install
+```
+
+You should then confirm that everything is set up properly by running the tests and confirming they pass ([see Testing](#Testing) below).
+
 ## Development Standards
 Meeting the goals of the Starter Kit includes developing in ways that make it easy to collaborate, maintain, and support our work.
 
