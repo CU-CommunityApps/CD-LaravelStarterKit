@@ -26,6 +26,9 @@ class StarterKitServiceProvider extends PackageServiceProvider
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
                 ], "{$this->package->shortName()}-install");
             }
+            $this->publishes([
+                __DIR__.'/../vendor/cu-communityapps/cwd-framework-lite' => public_path("cwd-framework-lite"),
+            ], "{$this->package->shortName()}-assets");
         }
     }
 
@@ -47,14 +50,21 @@ class StarterKitServiceProvider extends PackageServiceProvider
             question: "Use Starter Kit files ($file_list)?",
             default: true,
         );
-
         if ($shouldInstallFiles) {
             $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
             $this->publishFiles($command);
             $this->populatePlaceholders($projectName);
         }
-
         $command->info('File installation complete.');
+
+        $shouldInstallAssets = $command->confirm(
+            question: "Use cwd_framework_lite assets?",
+            default: true,
+        );
+        if ($shouldInstallAssets) {
+            $this->publishAssets($command);
+        }
+        $command->info('Asset installation complete.');
     }
 
     private function publishFiles(InstallCommand $command)
@@ -87,5 +97,17 @@ class StarterKitServiceProvider extends PackageServiceProvider
 
             File::put(base_path($file), $newContents);
         }
+    }
+
+    private function publishAssets(InstallCommand $command)
+    {
+        $command->call(
+            command: 'vendor:publish',
+            arguments: [
+                '--provider' => StarterKitServiceProvider::class,
+                '--tag' => "{$this->package->shortName()}-assets",
+                '--force' => true,
+            ]
+        );
     }
 }

@@ -22,6 +22,8 @@ class InstallStarterKitTest extends TestCase
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsQuestion('Project name', 'Test Project')
             ->expectsOutputToContain('File installation complete.')
+            ->expectsConfirmation("Use cwd_framework_lite assets?", 'yes')
+            ->expectsOutputToContain('Asset installation complete.')
             ->assertExitCode(Command::SUCCESS);
     }
 
@@ -38,14 +40,16 @@ class InstallStarterKitTest extends TestCase
 
         $this->artisan('starterkit:install')
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', $firstProjectName);
+            ->expectsQuestion('Project name', $firstProjectName)
+            ->expectsConfirmation("Use cwd_framework_lite assets?", 'yes');
         $contents = File::get($basePath.DIRECTORY_SEPARATOR.'README.md');
 
         $this->assertStringContainsString($firstProjectName, $contents);
 
         $this->artisan('starterkit:install')
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', $secondProjectName);
+            ->expectsQuestion('Project name', $secondProjectName)
+            ->expectsConfirmation("Use cwd_framework_lite assets?", 'yes');
         $readmeContents = File::get($basePath.DIRECTORY_SEPARATOR.'README.md');
         $landoContents = File::get($basePath.DIRECTORY_SEPARATOR.'.lando.yml');
 
