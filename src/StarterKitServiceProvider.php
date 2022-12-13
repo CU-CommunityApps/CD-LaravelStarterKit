@@ -28,8 +28,10 @@ class StarterKitServiceProvider extends PackageServiceProvider
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
                 ], "{$this->package->shortName()}-install");
             }
+            $themeDir = '/vendor/cu-communityapps/'.self::THEME_NAME;
+            $publishPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
             $this->publishes([
-                __DIR__."/../vendor/cu-communityapps/".self::THEME_NAME => public_path(self::THEME_NAME),
+                $publishPath.$themeDir => public_path(self::THEME_NAME),
             ], "{$this->package->shortName()}-assets");
         }
     }
@@ -121,7 +123,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => self::THEME_NAME.'-views',
+                '--tag' => "{$this->package->shortName()}-views",
             ]
         );
     }
