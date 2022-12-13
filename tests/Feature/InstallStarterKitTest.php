@@ -13,18 +13,34 @@ class InstallStarterKitTest extends TestCase
 {
     public function testCanRunInstall()
     {
-        foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
-            File::delete($this->getBasePath().DIRECTORY_SEPARATOR.$filename);
-        }
-        $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
+        $basePath = $this->getBasePath();
+        $packageName = StarterKitServiceProvider::PACKAGE_NAME;
+        $themeName = StarterKitServiceProvider::THEME_NAME;
 
-        $this->artisan('starterkit:install')
+        // Delete files from previous tests
+        foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
+            File::delete("$basePath/$filename");
+        }
+        File::deleteDirectory("$basePath/public/$themeName");
+        File::deleteDirectory("$basePath/resources/views/vendor");
+
+        $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
+        $this->artisan("{$packageName}:install")
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsQuestion('Project name', 'Test Project')
             ->expectsOutputToContain('File installation complete.')
-            ->expectsConfirmation("Use cwd_framework_lite assets?", 'yes')
-            ->expectsOutputToContain('Asset installation complete.')
+            ->expectsConfirmation("Use {$themeName} assets?", 'yes')
+            ->expectsOutputToContain("{$themeName} assets installed.")
             ->assertExitCode(Command::SUCCESS);
+
+        $this->assertFileExists("$basePath/README.md");
+        $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
+
+        $this->artisan('vendor:publish', [
+            '--provider' => StarterKitServiceProvider::class,
+            '--tag' => "{$themeName}-views",
+        ]);
+        $this->assertFileExists("$basePath/resources/views/vendor/$themeName/components/layout.blade.php");
     }
 
     public function testInstallReplacesFiles()
@@ -32,26 +48,28 @@ class InstallStarterKitTest extends TestCase
         $firstProjectName = 'First Project';
         $secondProjectName = 'Second Project';
         $basePath = $this->getBasePath();
+        $packageName = StarterKitServiceProvider::PACKAGE_NAME;
+        $themeName = StarterKitServiceProvider::THEME_NAME;
 
         foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
-            File::delete($basePath.DIRECTORY_SEPARATOR.$filename);
+            File::delete("$basePath/$filename");
         }
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
 
-        $this->artisan('starterkit:install')
+        $this->artisan("{$packageName}:install")
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsQuestion('Project name', $firstProjectName)
-            ->expectsConfirmation("Use cwd_framework_lite assets?", 'yes');
-        $contents = File::get($basePath.DIRECTORY_SEPARATOR.'README.md');
+            ->expectsConfirmation("Use {$themeName} assets?", 'yes');
+        $contents = File::get("$basePath/README.md");
 
         $this->assertStringContainsString($firstProjectName, $contents);
 
-        $this->artisan('starterkit:install')
+        $this->artisan("{$packageName}:install")
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsQuestion('Project name', $secondProjectName)
-            ->expectsConfirmation("Use cwd_framework_lite assets?", 'yes');
-        $readmeContents = File::get($basePath.DIRECTORY_SEPARATOR.'README.md');
-        $landoContents = File::get($basePath.DIRECTORY_SEPARATOR.'.lando.yml');
+            ->expectsConfirmation("Use {$themeName} assets?", 'yes');
+        $readmeContents = File::get("$basePath/README.md");
+        $landoContents = File::get("$basePath/.lando.yml");
 
         $this->assertStringContainsString($secondProjectName, $readmeContents);
         $this->assertStringContainsString(Str::slug($secondProjectName), $landoContents);

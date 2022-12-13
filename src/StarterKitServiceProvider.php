@@ -11,6 +11,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class StarterKitServiceProvider extends PackageServiceProvider
 {
+    const PACKAGE_NAME = 'starterkit';
+    const THEME_NAME = 'cwd-framework-lite';
     public const INSTALL_FILES = [
         'README.md',
         '.lando.yml',
@@ -27,7 +29,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
                 ], "{$this->package->shortName()}-install");
             }
             $this->publishes([
-                __DIR__.'/../vendor/cu-communityapps/cwd-framework-lite' => public_path("cwd-framework-lite"),
+                __DIR__."/../vendor/cu-communityapps/".self::THEME_NAME => public_path(self::THEME_NAME),
             ], "{$this->package->shortName()}-assets");
         }
     }
@@ -35,7 +37,8 @@ class StarterKitServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('starterkit')
+            ->name(self::PACKAGE_NAME)
+            ->hasViews(self::THEME_NAME)
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->startWith(fn (InstallCommand $c) => $this->install($c));
             });
@@ -57,14 +60,15 @@ class StarterKitServiceProvider extends PackageServiceProvider
         }
         $command->info('File installation complete.');
 
+        $themeName = self::THEME_NAME;
         $shouldInstallAssets = $command->confirm(
-            question: "Use cwd_framework_lite assets?",
+            question: "Use {$themeName} assets?",
             default: true,
         );
         if ($shouldInstallAssets) {
             $this->publishAssets($command);
         }
-        $command->info('Asset installation complete.');
+        $command->info("{$themeName} assets installed.");
     }
 
     private function publishFiles(InstallCommand $command)
@@ -107,6 +111,17 @@ class StarterKitServiceProvider extends PackageServiceProvider
                 '--provider' => StarterKitServiceProvider::class,
                 '--tag' => "{$this->package->shortName()}-assets",
                 '--force' => true,
+            ]
+        );
+    }
+
+    private function publishViews(InstallCommand $command)
+    {
+        $command->call(
+            command: 'vendor:publish',
+            arguments: [
+                '--provider' => StarterKitServiceProvider::class,
+                '--tag' => self::THEME_NAME.'-views',
             ]
         );
     }
