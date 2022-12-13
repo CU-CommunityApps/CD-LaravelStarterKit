@@ -32,7 +32,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             $publishPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
             $this->publishes([
                 $publishPath.$themeDir => public_path(self::THEME_NAME),
-            ], self::PACKAGE_NAME.'-assets');
+            ], self::THEME_NAME.'-assets');
         }
     }
 
@@ -111,7 +111,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => self::PACKAGE_NAME.'-assets',
+                '--tag' => self::THEME_NAME.'-assets',
                 '--force' => true,
             ]
         );
@@ -123,7 +123,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => self::PACKAGE_NAME.'-views',
+                '--tag' => self::THEME_NAME.'-views',
             ]
         );
     }
