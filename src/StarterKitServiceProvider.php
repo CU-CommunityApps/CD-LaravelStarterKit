@@ -26,13 +26,13 @@ class StarterKitServiceProvider extends PackageServiceProvider
             foreach (self::INSTALL_FILES as $installFileName) {
                 $this->publishes([
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
-                ], "{$this->package->shortName()}-install");
+                ], self::PACKAGE_NAME.'-install');
             }
             $themeDir = '/vendor/cu-communityapps/'.self::THEME_NAME;
             $publishPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
             $this->publishes([
                 $publishPath.$themeDir => public_path(self::THEME_NAME),
-            ], "{$this->package->shortName()}-assets");
+            ], self::PACKAGE_NAME.'-assets');
         }
     }
 
@@ -79,7 +79,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => "{$this->package->shortName()}-install",
+                '--tag' => self::PACKAGE_NAME.'-install',
                 '--force' => true,
             ]
         );
@@ -111,7 +111,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => "{$this->package->shortName()}-assets",
+                '--tag' => self::PACKAGE_NAME.'-assets',
                 '--force' => true,
             ]
         );
@@ -123,7 +123,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => "{$this->package->shortName()}-views",
+                '--tag' => self::PACKAGE_NAME.'-views',
             ]
         );
     }
