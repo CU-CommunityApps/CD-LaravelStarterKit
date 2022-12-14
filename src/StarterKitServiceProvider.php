@@ -12,7 +12,9 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 class StarterKitServiceProvider extends PackageServiceProvider
 {
     const PACKAGE_NAME = 'starterkit';
+
     const THEME_NAME = 'cwd_framework_lite';
+
     public const INSTALL_FILES = [
         'README.md',
         '.lando.yml',
