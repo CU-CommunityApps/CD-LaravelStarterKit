@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $title ?? 'Laravel Starter Kit' }}</title>
+    <title>{{ $title ?? ':project_name' }}</title>
 
     <link rel="icon" href="{{ asset('cwd-framework/favicon.ico') }}" type="image/vnd.microsoft.icon" />
 
@@ -55,7 +55,7 @@
         <div class="container-fluid cu-brand">
             <h1 class="cu-logo"><a href="https://www.cornell.edu"><img class="sr-only" src="{{ asset('cwd-framework/images/cornell/bold_cornell_logo_simple_b31b1b.svg') }}" alt="Cornell University" width="245" height="62"></a></h1>
             <div class="cu-unit">
-                <h2>Laravel Starter Kit</h2>
+                <h2>:project_name</h2>
                 <h3 class="sans">Custom Development</h3>
             </div>
             <div class="buttons">

@@ -52,18 +52,23 @@ class StarterKitServiceProvider extends PackageServiceProvider
     {
         $command->info('Installing StarterKit...');
 
+        $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
+
         $file_list = Arr::join(self::INSTALL_FILES, ', ');
         $shouldInstallFiles = $command->confirm(
             question: "Use Starter Kit files ($file_list)?",
             default: true,
         );
         if ($shouldInstallFiles) {
-            $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
             $this->publishFiles($command);
-            $this->populatePlaceholders($projectName);
+            $this->populatePlaceholders($projectName, self::INSTALL_FILES);
         }
         $this->publishAssets($command);
         $this->publishViews($command);
+        $this->populatePlaceholders($projectName, [
+            'resources/views/vendor/'.self::THEME_NAME.'/components/layout.blade.php'
+        ]);
+
         $command->info('File installation complete.');
     }
 
@@ -79,14 +84,14 @@ class StarterKitServiceProvider extends PackageServiceProvider
         );
     }
 
-    public function populatePlaceholders(string $projectName): void
+    public function populatePlaceholders(string $projectName, $files): void
     {
         $replacements = [
             ':project_name' => $projectName,
             ':project_slug' => Str::slug($projectName),
         ];
 
-        foreach (self::INSTALL_FILES as $file) {
+        foreach ($files as $file) {
             $contents = File::get(base_path($file));
 
             $newContents = str_replace(

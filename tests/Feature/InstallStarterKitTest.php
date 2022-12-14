@@ -16,6 +16,7 @@ class InstallStarterKitTest extends TestCase
         $basePath = $this->getBasePath();
         $packageName = StarterKitServiceProvider::PACKAGE_NAME;
         $themeName = StarterKitServiceProvider::THEME_NAME;
+        $projectName = 'Test Project';
 
         // Delete files from previous tests
         foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
@@ -26,19 +27,18 @@ class InstallStarterKitTest extends TestCase
 
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
         $this->artisan("{$packageName}:install")
+            ->expectsQuestion('Project name', $projectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', 'Test Project')
             ->expectsOutputToContain('File installation complete.')
             ->assertExitCode(Command::SUCCESS);
 
         $this->assertFileExists("$basePath/README.md");
         $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
-
-        $this->artisan('vendor:publish', [
-            '--provider' => StarterKitServiceProvider::class,
-            '--tag' => "{$themeName}-views",
-        ]);
         $this->assertFileExists("$basePath/resources/views/vendor/$themeName/components/layout.blade.php");
+        $this->assertStringContainsString(
+            needle: $projectName,
+            haystack: File::get("$basePath/resources/views/vendor/$themeName/components/layout.blade.php")
+        );
     }
 
     public function testInstallReplacesFiles()
@@ -55,15 +55,15 @@ class InstallStarterKitTest extends TestCase
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
 
         $this->artisan("{$packageName}:install")
-            ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', $firstProjectName);
+            ->expectsQuestion('Project name', $firstProjectName)
+        ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes');
         $contents = File::get("$basePath/README.md");
 
         $this->assertStringContainsString($firstProjectName, $contents);
 
         $this->artisan("{$packageName}:install")
-            ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', $secondProjectName);
+            ->expectsQuestion('Project name', $secondProjectName)
+            ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes');
         $readmeContents = File::get("$basePath/README.md");
         $landoContents = File::get("$basePath/.lando.yml");
 
