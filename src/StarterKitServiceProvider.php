@@ -12,7 +12,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 class StarterKitServiceProvider extends PackageServiceProvider
 {
     const PACKAGE_NAME = 'starterkit';
-    const THEME_NAME = 'cwd-framework-lite';
+    const THEME_NAME = 'cwd_framework_lite';
     public const INSTALL_FILES = [
         'README.md',
         '.lando.yml',
@@ -28,7 +28,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
                 ], self::PACKAGE_NAME.'-install');
             }
-            $themeDir = '/vendor/cu-communityapps/'.self::THEME_NAME;
+            $themeDir = '/vendor/cubear/'.self::THEME_NAME;
             $publishPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
             $this->publishes([
                 $publishPath.$themeDir => public_path(self::THEME_NAME),

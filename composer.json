@@ -7,19 +7,13 @@
     "php": "^8.1",
     "livewire/livewire": "^2.10",
     "spatie/laravel-package-tools": "^1.13",
-    "cu-communityapps/cwd-framework-lite": "dev-composer"
+    "cubear/cwd_framework_lite": "dev-main"
   },
   "require-dev": {
     "orchestra/testbench": "^7.0",
     "phpunit/phpunit": "^9.5",
     "laravel/pint": "^1.2"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:CU-CommunityApps/cwd_framework_lite.git"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "CUCustomDev\\LaravelStarterKit\\": "src"
