@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $title ?? 'Cornell CSS Framework' }}</title>
+    <title>{{ $title ?? 'Laravel Starter Kit' }}</title>
 
-    <link rel="icon" href="{{ asset('cwd-framework-lite/favicon.ico') }}" type="image/vnd.microsoft.icon" />
+    <link rel="icon" href="{{ asset('cwd-framework/favicon.ico') }}" type="image/vnd.microsoft.icon" />
 
-    <link href="{{ asset('cwd-framework-lite/css/base.css') }}" rel="stylesheet">
-    <link href="{{ asset('cwd-framework-lite/css/cornell.css') }}" rel="stylesheet">
-    <link href="{{ asset('cwd-framework-lite/css/cwd_utilities.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/css/base.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/css/cornell.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/css/cwd_utilities.css') }}" rel="stylesheet">
 
     <!-- Activate for Cornell.edu typography and basic patterns -->
     <!-- <link rel="stylesheet" href="https://use.typekit.net/nwp2wku.css"> -->
-    <!-- <link href="{{ asset('cwd-framework-lite/css/cwd_patterns.css') }}" rel="stylesheet"> -->
+    <!-- <link href="{{ asset('cwd-framework/css/cwd_patterns.css') }}" rel="stylesheet"> -->
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -23,8 +23,8 @@
     <![endif]-->
 
     <!-- Icon Fonts -->
-    <link href="{{ asset('cwd-framework-lite/fonts/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('cwd-framework-lite/fonts/material-design-iconic-font.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/fonts/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/fonts/material-design-iconic-font.min.css') }}" rel="stylesheet">
 
 </head>
 <body class="cu-seal sidebar sidebar-right sidebar-tint sidebar-tint-edge">
@@ -53,9 +53,9 @@
         </div>
         <div class="cu45-helper"></div>
         <div class="container-fluid cu-brand">
-            <h1 class="cu-logo"><a href="https://www.cornell.edu"><img class="sr-only" src="{{ asset('cwd-framework-lite/images/cornell/bold_cornell_logo_simple_b31b1b.svg') }}" alt="Cornell University" width="245" height="62"></a></h1>
+            <h1 class="cu-logo"><a href="https://www.cornell.edu"><img class="sr-only" src="{{ asset('cwd-framework/images/cornell/bold_cornell_logo_simple_b31b1b.svg') }}" alt="Cornell University" width="245" height="62"></a></h1>
             <div class="cu-unit">
-                <h2>Cornell CSS Framework</h2>
+                <h2>Laravel Starter Kit</h2>
                 <h3 class="sans">Custom Development</h3>
             </div>
             <div class="buttons">
@@ -72,7 +72,7 @@
             <div class="container-fluid">
                 <a id="mobile-home" href="#"><span class="sr-only">Home</span></a>
                 <ul class="list-menu links">
-                    <li class="active parent"><a href="{{ route('home') }}">Template</a></li>
+                    <li class="active parent"><a href="/">Template</a></li>
                 </ul>
             </div>
         </nav>
@@ -156,7 +156,7 @@
                 </ul>
                 <h4 class="fade-bw low-margin">Unit Image</h4>
                 <p class="smallprint">To match the expected style, unit logotype images must be made with Iowan Old Style 35pt, and the SVG canvas should match the size of the Cornell University logotype (480x36) so that character sizes scale uniformly. When done correctly, the final rendering will look like the image below:</p>
-                <p><img src="{{ asset('cwd-framework-lite/images/cornell/unit_signature_sample.png') }}" width="571" height="120" alt="The final rendering of the Cornell seal and unit logotype"></p>
+                <p><img src="{{ asset('cwd-framework/images/cornell/unit_signature_sample.png') }}" width="571" height="120" alt="The final rendering of the Cornell seal and unit logotype"></p>
                 <hr class="section-break">
                 <h2>Curios</h2>
                 <h3>What is .cu45-helper?</h3>
@@ -227,8 +227,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <!-- CWD Components -->
-<script src="{{ asset('cwd-framework-lite/js/cwd.js') }}"></script>
-<script src="{{ asset('cwd-framework-lite/js/cwd_utilities.js') }}"></script>
+<script src="{{ asset('cwd-framework/js/cwd.js') }}"></script>
+<script src="{{ asset('cwd-framework/js/cwd_utilities.js') }}"></script>
 
 </body>
 </html>

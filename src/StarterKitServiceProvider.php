@@ -13,7 +13,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
 {
     const PACKAGE_NAME = 'starterkit';
 
-    const THEME_NAME = 'cwd_framework_lite';
+    const THEME_NAME = 'cwd-framework';
 
     public const INSTALL_FILES = [
         'README.md',
@@ -30,7 +30,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
                 ], self::PACKAGE_NAME.'-install');
             }
-            $themeDir = '/vendor/cubear/'.self::THEME_NAME;
+            $themeDir = '/vendor/cubear/cwd_framework_lite';
             $publishPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
             $this->publishes([
                 $publishPath.$themeDir => public_path(self::THEME_NAME),
@@ -62,17 +62,9 @@ class StarterKitServiceProvider extends PackageServiceProvider
             $this->publishFiles($command);
             $this->populatePlaceholders($projectName);
         }
+        $this->publishAssets($command);
+        $this->publishViews($command);
         $command->info('File installation complete.');
-
-        $themeName = self::THEME_NAME;
-        $shouldInstallAssets = $command->confirm(
-            question: "Use {$themeName} assets?",
-            default: true,
-        );
-        if ($shouldInstallAssets) {
-            $this->publishAssets($command);
-        }
-        $command->info("{$themeName} assets installed.");
     }
 
     private function publishFiles(InstallCommand $command)
