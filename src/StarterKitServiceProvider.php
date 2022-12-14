@@ -66,7 +66,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         $this->publishAssets($command);
         $this->publishViews($command);
         $this->populatePlaceholders($projectName, [
-            'resources/views/vendor/'.self::THEME_NAME.'/components/layout.blade.php'
+            'resources/views/vendor/'.self::THEME_NAME.'/components/layout.blade.php',
         ]);
 
         $command->info('File installation complete.');
