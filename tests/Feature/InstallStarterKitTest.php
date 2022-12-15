@@ -34,10 +34,10 @@ class InstallStarterKitTest extends TestCase
 
         $this->assertFileExists("$basePath/README.md");
         $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
-        $this->assertFileExists("$basePath/resources/views/vendor/$themeName/components/layout.blade.php");
+        $this->assertFileExists("$basePath/resources/views/vendor/$themeName/components/layouts/app.blade.php");
         $this->assertStringContainsString(
             needle: $projectName,
-            haystack: File::get("$basePath/resources/views/vendor/$themeName/components/layout.blade.php")
+            haystack: File::get("$basePath/resources/views/vendor/$themeName/example-content.blade.php")
         );
     }
 
