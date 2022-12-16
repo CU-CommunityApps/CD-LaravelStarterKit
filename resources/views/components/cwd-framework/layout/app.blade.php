@@ -33,25 +33,25 @@
 <div id="skipnav"><a href="#main">Skip to main content</a></div>
 
 <div class="band" id="super-header">
-    <x-layouts.cu-header :title="$title" :subtitle="$subtitle"/>
-    <x-layouts.site-header/>
+    <x-cwd-framework.layout.cu-header :title="$title" :subtitle="$subtitle"/>
+    <x-cwd-framework.layout.site-header/>
 </div>
 
 <div id="main-content" class="band">
     <main id="main" class="container-fluid aria-target" tabindex="-1">
         <div class="row">
-            <x-layouts.sidebar-top/>
-            <x-layouts.main-article>
-                <x-slot>{{ $slot }}</x-slot>
-            </x-layouts.main-article>
-            <x-layouts.sidebar-bottom/>
+            <x-cwd-framework.layout.sidebar-top/>
+            <x-cwd-framework.layout.main-article>
+                {{ $slot }}
+            </x-cwd-framework.layout.main-article>
+            <x-cwd-framework.layout.sidebar-bottom/>
         </div>
     </main>
 </div>
 
-<x-layouts.supplementary-content/>
+<x-cwd-framework.layout.supplementary-content/>
 
-<x-layouts.footer/>
+<x-cwd-framework.layout.footer/>
 
 <!-- jQuery and Contributed Components -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -23,21 +23,23 @@ class InstallStarterKitTest extends TestCase
             File::delete("$basePath/$filename");
         }
         File::deleteDirectory("$basePath/public/$themeName");
-        File::deleteDirectory("$basePath/resources/views/vendor");
+        File::deleteDirectory("$basePath/resources/views/components/$themeName");
 
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
         $this->artisan("{$packageName}:install")
             ->expectsQuestion('Project name', $projectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
+            ->expectsConfirmation('Install cwd-framework assets?', 'yes')
             ->expectsOutputToContain('File installation complete.')
             ->assertExitCode(Command::SUCCESS);
 
         $this->assertFileExists("$basePath/README.md");
         $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
-        $this->assertFileExists("$basePath/resources/views/vendor/$themeName/components/layouts/app.blade.php");
+        $this->assertFileExists("$basePath/resources/views/components/$themeName/layout/app.blade.php");
+        $this->assertFileExists("$basePath/resources/views/$themeName-index.blade.php");
         $this->assertStringContainsString(
             needle: $projectName,
-            haystack: File::get("$basePath/resources/views/vendor/$themeName/example-content.blade.php")
+            haystack: File::get("$basePath/resources/views/$themeName-index.blade.php")
         );
     }
 
@@ -56,14 +58,16 @@ class InstallStarterKitTest extends TestCase
 
         $this->artisan("{$packageName}:install")
             ->expectsQuestion('Project name', $firstProjectName)
-        ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes');
+            ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
+            ->expectsConfirmation('Install cwd-framework assets?', 'yes');
         $contents = File::get("$basePath/README.md");
 
         $this->assertStringContainsString($firstProjectName, $contents);
 
         $this->artisan("{$packageName}:install")
             ->expectsQuestion('Project name', $secondProjectName)
-            ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes');
+            ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
+            ->expectsConfirmation('Install cwd-framework assets?', 'yes');
         $readmeContents = File::get("$basePath/README.md");
         $landoContents = File::get("$basePath/.lando.yml");
 

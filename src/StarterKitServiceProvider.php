@@ -24,16 +24,20 @@ class StarterKitServiceProvider extends PackageServiceProvider
     {
         parent::boot();
 
+        $themeDir = '/vendor/cubear/cwd_framework_lite';
+        $themeAssetsPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
+
         if ($this->app->runningInConsole()) {
             foreach (self::INSTALL_FILES as $installFileName) {
                 $this->publishes([
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
                 ], self::PACKAGE_NAME.'-install');
             }
-            $themeDir = '/vendor/cubear/cwd_framework_lite';
-            $publishPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
+            $exampleFile = self::THEME_NAME.'-index.blade.php';
             $this->publishes([
-                $publishPath.$themeDir => public_path(self::THEME_NAME),
+                $themeAssetsPath.$themeDir => public_path(self::THEME_NAME),
+                __DIR__.'/../resources/views/components/'.self::THEME_NAME => resource_path('/views/components/'.self::THEME_NAME),
+                __DIR__."/../resources/views/$exampleFile" => resource_path("/views/$exampleFile"),
             ], self::THEME_NAME.'-assets');
         }
     }
@@ -42,7 +46,6 @@ class StarterKitServiceProvider extends PackageServiceProvider
     {
         $package
             ->name(self::PACKAGE_NAME)
-            ->hasViews(self::THEME_NAME)
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->startWith(fn (InstallCommand $c) => $this->install($c));
             });
@@ -63,11 +66,14 @@ class StarterKitServiceProvider extends PackageServiceProvider
             $this->publishFiles($command);
             $this->populatePlaceholders($projectName, self::INSTALL_FILES);
         }
-        $this->publishAssets($command);
-        $this->publishViews($command);
-        $this->populatePlaceholders($projectName, [
-            'resources/views/vendor/'.self::THEME_NAME.'/example-content.blade.php',
-        ]);
+
+        $shouldInstallAssets = $command->confirm(
+            question: 'Install cwd-framework assets?',
+            default: true,
+        );
+        if ($shouldInstallAssets) {
+            $this->publishAssets($command, $projectName);
+        }
 
         $command->info('File installation complete.');
     }
@@ -84,7 +90,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         );
     }
 
-    public function populatePlaceholders(string $projectName, $files): void
+    public static function populatePlaceholders(string $projectName, $files): void
     {
         $replacements = [
             ':project_name' => $projectName,
@@ -104,7 +110,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         }
     }
 
-    private function publishAssets(InstallCommand $command)
+    private function publishAssets(InstallCommand $command, $projectName)
     {
         $command->call(
             command: 'vendor:publish',
@@ -114,16 +120,8 @@ class StarterKitServiceProvider extends PackageServiceProvider
                 '--force' => true,
             ]
         );
-    }
-
-    private function publishViews(InstallCommand $command)
-    {
-        $command->call(
-            command: 'vendor:publish',
-            arguments: [
-                '--provider' => StarterKitServiceProvider::class,
-                '--tag' => self::THEME_NAME.'-views',
-            ]
-        );
+        $this->populatePlaceholders($projectName, [
+            'resources/views/'.self::THEME_NAME.'-index.blade.php',
+        ]);
     }
 }
