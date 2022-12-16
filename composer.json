@@ -1,5 +1,5 @@
 {
-  "name": "cu-communityapps/cd-laravelstarterkit",
+  "name": "cornell-custom-dev/laravel-starter-kit",
   "description": "Cornell University Custom Development Laravel Starter Kit",
   "license": "MIT",
   "type": "library",
@@ -16,18 +16,18 @@
   },
   "autoload": {
     "psr-4": {
-      "CUCustomDev\\LaravelStarterKit\\": "src"
+      "CornellCustomDev\\LaravelStarterKit\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "CUCustomDev\\LaravelStarterKit\\Tests\\": "tests"
+      "CornellCustomDev\\LaravelStarterKit\\Tests\\": "tests"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "CUCustomDev\\LaravelStarterKit\\StarterKitServiceProvider"
+        "CornellCustomDev\\LaravelStarterKit\\StarterKitServiceProvider"
       ]
     }
   },

@@ -1,6 +1,6 @@
 <?php
 
-namespace CUCustomDev\LaravelStarterKit;
+namespace CornellCustomDev\LaravelStarterKit;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
