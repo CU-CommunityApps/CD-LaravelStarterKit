@@ -1,4 +1,4 @@
-# Contributing to CD-LaravelStarterKit
+# Contributing to the Laravel Starter Kit
 
 ## Getting Started
 There are several places for information on what needs to be worked on:
@@ -9,7 +9,7 @@ There are several places for information on what needs to be worked on:
 ## Local Development Setup
 The Laravel Starter Kit is a package, so the development and use of it is not the same as a Laravel project. It may be of use to read [Laravel Package Development](https://laravelpackage.com/) and the [Laravel Package Development documentation](https://laravel.com/docs/9.x/packages).
 
-Local development of CD-LaravelStarterKit requires an environment with php, composer, and git. The `.lando.yml` provided in this package can set up that environment in Docker (run `lando start`) and then a shell with that environment can be used by running `lando ssh`.
+Local development of the Laravel Starter Kit requires an environment with php, composer, and git. The `.lando.yml` provided in this package can set up that environment in Docker (run `lando start`) and then a shell with that environment can be used by running `lando ssh`.
 
 ### Installing dependencies
 To fully set up your local environment, you will need to install the composer-managed dependencies:
@@ -28,6 +28,38 @@ composer install
 You should then confirm that everything is set up properly by running the tests and confirming they pass ([see Testing](#Testing) below).
 
 Since the `vendor` directory is not committed to the repository, it is important to run `composer install` whenever there are dependency updates. This is also a good first step if tests are failing and you have not made any local changes.
+
+### Functional testing
+ Testing use of the package requires a Laravel project environment where you can composer require it. To get that you can follow the "Usage" instructions of the readme. 
+
+#### Local composer repository 
+For testing, you can composer require the starter kit using a path reference, which is much faster than committing and pushing to GitHub and then running composer update. Good instructions for how to do this can be found on the [Laravel Package Development](https://laravelpackage.com/02-development-environment.html#importing-the-package-locally) site. If you are using Lando, you will also need to modify your .lando.local.yml to map a directory for the path.
+
+Example `.lando.local.yml` mapping a host directory of `../LaravelStarterKit` to `/laravel-starter-kit` inside the Docker container:
+```yaml
+name: laravel-example
+recipe: laravel
+config:
+  webroot: ./public
+  php: 8.1
+  composer_version: 2-latest
+
+services:
+  appserver:
+    overrides:
+      volumes:
+        - ../LaravelStarterKit:/laravel-starter-kit
+```
+
+`composer.json` repository definition to require the starter kit as a symbolic link from the mapped directory:
+```
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/laravel-starter-kit"
+        }
+    ],
+```
 
 ## Development Standards
 Meeting the goals of the Starter Kit includes developing in ways that make it easy to collaborate, maintain, and support our work.
