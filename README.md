@@ -1,4 +1,4 @@
-# CD-LaravelStarterKit
+# Laravel Starter Kit
 
 A Cornell University CIT Custom Development starter kit package for Laravel.
 
@@ -15,24 +15,15 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
    ```shell
    composer create-project laravel/laravel example-app
    ```
-2. Add the CD-LaravelStarterKit repository to `composer.json`:
-   ```
-   "repositories": [
-     {
-       "type": "vcs",
-       "url": "git@github.com:CU-CommunityApps/CD-LaravelStarterKit.git"
-     }
-   ],
-   ```
-3. Composer require the CD-LaravelStarterKit
+2. Composer require the LaravelStarterKit
    ```shell
-   composer require cu-communityapps/cd-laravelstarterkit
+   composer require cornell-custom-dev/laravel-starter-kit
    ```
-4. Install the Starter Kit
+3. Install the Starter Kit
    ```shell
    php artisan starterkit:install
    ```
-   This will publish a `README.md` and `.lando.yml` file to the base directory, configured on the project settings.
+   This will publish a `README.md` and `.lando.yml` file to the base directory, configured on the project settings. It will also publish HTML/CSS/JS assets from [cwd_framework_lite](https://github.com/CU-CommunityApps/cwd_framework_lite) and a set of [view components](https://laravel.com/docs/9.x/blade#layouts-using-components) that can be used to begin a layout (see `views/cwd-framework-index.blade.php` for example usage).
 
 ## Contributing
 
