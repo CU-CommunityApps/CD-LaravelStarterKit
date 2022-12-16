@@ -1,8 +1,8 @@
 <?php
 
-namespace CUCustomDev\LaravelStarterKit\Tests\Unit;
+namespace CornellCustomDev\LaravelStarterKit\Tests\Unit;
 
-use CUCustomDev\LaravelStarterKit\StarterKitServiceProvider;
+use CornellCustomDev\LaravelStarterKit\StarterKitServiceProvider;
 use PHPUnit\Framework\TestCase;
 
 class InstallStarterKitTest extends TestCase
