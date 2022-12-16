@@ -1,8 +1,8 @@
 <?php
 
-namespace CUCustomDev\LaravelStarterKit\Tests;
+namespace CornellCustomDev\LaravelStarterKit\Tests;
 
-use CUCustomDev\LaravelStarterKit\StarterKitServiceProvider;
+use CornellCustomDev\LaravelStarterKit\StarterKitServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

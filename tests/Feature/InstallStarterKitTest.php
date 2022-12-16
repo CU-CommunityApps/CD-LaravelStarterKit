@@ -1,9 +1,9 @@
 <?php
 
-namespace CUCustomDev\LaravelStarterKit\Tests\Feature;
+namespace CornellCustomDev\LaravelStarterKit\Tests\Feature;
 
-use CUCustomDev\LaravelStarterKit\StarterKitServiceProvider;
-use CUCustomDev\LaravelStarterKit\Tests\TestCase;
+use CornellCustomDev\LaravelStarterKit\StarterKitServiceProvider;
+use CornellCustomDev\LaravelStarterKit\Tests\TestCase;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
