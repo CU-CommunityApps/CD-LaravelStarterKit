@@ -20,6 +20,14 @@ class StarterKitServiceProvider extends PackageServiceProvider
         '.lando.yml',
     ];
 
+    public const ASSET_FILES = [
+        'css',
+        'fonts',
+        'images',
+        'js',
+        'favicon.ico',
+    ];
+
     public function boot()
     {
         parent::boot();
@@ -33,9 +41,13 @@ class StarterKitServiceProvider extends PackageServiceProvider
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
                 ], self::PACKAGE_NAME.'-install');
             }
+
+            foreach (self::ASSET_FILES as $asset_file) {
+                $this->publishes([$themeAssetsPath.$themeDir.'/'.$asset_file => public_path(self::THEME_NAME.'/'.$asset_file),
+                ], self::THEME_NAME.'-assets');
+            }
             $exampleFile = self::THEME_NAME.'-index.blade.php';
             $this->publishes([
-                $themeAssetsPath.$themeDir => public_path(self::THEME_NAME),
                 __DIR__.'/../resources/views/components/'.self::THEME_NAME => resource_path('/views/components/'.self::THEME_NAME),
                 __DIR__."/../resources/views/$exampleFile" => resource_path("/views/$exampleFile"),
             ], self::THEME_NAME.'-assets');

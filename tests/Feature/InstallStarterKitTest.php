@@ -34,6 +34,8 @@ class InstallStarterKitTest extends TestCase
             ->assertExitCode(Command::SUCCESS);
 
         $this->assertFileExists("$basePath/README.md");
+        $this->assertFileExists("$basePath/public/$themeName/css/base.css");
+        $this->assertFileDoesNotExist("$basePath/public/$themeName/sass/base.scss");
         $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
         $this->assertFileExists("$basePath/resources/views/components/$themeName/layout/app.blade.php");
         $this->assertFileExists("$basePath/resources/views/$themeName-index.blade.php");
