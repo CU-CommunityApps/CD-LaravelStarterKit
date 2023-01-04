@@ -15,8 +15,13 @@ class StarterKitServiceProvider extends PackageServiceProvider
 
     const THEME_NAME = 'cwd-framework';
 
+    const COMPOSER_NAMESPACE = 'cornell-custom-dev';
+
+    const PROJECT_DESCRIPTION = 'A project built from Cornell Custom Dev Laravel Starter Kit.';
+
     public const INSTALL_FILES = [
         'README.md',
+        '.gitignore',
         '.lando.yml',
     ];
 
@@ -77,6 +82,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         if ($shouldInstallFiles) {
             $this->publishFiles($command);
             $this->populatePlaceholders($projectName, self::INSTALL_FILES);
+            $this->updateComposerJson($projectName);
         }
 
         $shouldInstallAssets = $command->confirm(
@@ -135,5 +141,22 @@ class StarterKitServiceProvider extends PackageServiceProvider
         $this->populatePlaceholders($projectName, [
             'resources/views/'.self::THEME_NAME.'-index.blade.php',
         ]);
+    }
+
+    private function updateComposerJson(mixed $projectName)
+    {
+        $composerFile = base_path('composer.json');
+        $composerConfig = json_decode(File::get($composerFile), true);
+
+        $replacements = [
+            'name' => self::COMPOSER_NAMESPACE.'/'.Str::slug($projectName),
+            'description' => $projectName.': '.StarterKitServiceProvider::PROJECT_DESCRIPTION,
+        ];
+
+        foreach ($replacements as $key => $replacement) {
+            $composerConfig[$key] = $replacement;
+        }
+
+        File::put($composerFile, json_encode($composerConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 }

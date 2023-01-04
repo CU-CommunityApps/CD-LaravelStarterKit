@@ -33,6 +33,7 @@ class InstallStarterKitTest extends TestCase
             ->expectsOutputToContain('File installation complete.')
             ->assertExitCode(Command::SUCCESS);
 
+        $this->assertFileExists("$basePath/.gitignore");
         $this->assertFileExists("$basePath/README.md");
         $this->assertFileExists("$basePath/public/$themeName/css/base.css");
         $this->assertFileDoesNotExist("$basePath/public/$themeName/sass/base.scss");
@@ -47,26 +48,32 @@ class InstallStarterKitTest extends TestCase
 
     public function testInstallReplacesFiles()
     {
+        $composerNamespace = StarterKitServiceProvider::COMPOSER_NAMESPACE;
         $firstProjectName = 'First Project';
         $secondProjectName = 'Second Project';
         $basePath = $this->getBasePath();
         $packageName = StarterKitServiceProvider::PACKAGE_NAME;
-        $themeName = StarterKitServiceProvider::THEME_NAME;
 
         foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
             File::delete("$basePath/$filename");
         }
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
 
-        $this->artisan("{$packageName}:install")
+        $composerConfig = json_decode(File::get("$basePath/composer.json"), true);
+        $this->assertArrayHasKey('name', $composerConfig);
+
+        $this->artisan("$packageName:install")
             ->expectsQuestion('Project name', $firstProjectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsConfirmation('Install cwd-framework assets?', 'yes');
         $contents = File::get("$basePath/README.md");
+        $composerConfig = json_decode(File::get("$basePath/composer.json"), true);
 
         $this->assertStringContainsString($firstProjectName, $contents);
+        $this->assertEquals("$composerNamespace/".Str::slug($firstProjectName), $composerConfig['name']);
+        $this->assertEquals($firstProjectName.': '.StarterKitServiceProvider::PROJECT_DESCRIPTION, $composerConfig['description']);
 
-        $this->artisan("{$packageName}:install")
+        $this->artisan("$packageName:install")
             ->expectsQuestion('Project name', $secondProjectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsConfirmation('Install cwd-framework assets?', 'yes');
