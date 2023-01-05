@@ -66,10 +66,13 @@ class InstallStarterKitTest extends TestCase
             ->expectsQuestion('Project name', $firstProjectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsConfirmation('Install cwd-framework assets?', 'yes');
-        $contents = File::get("$basePath/README.md");
+        $readmeContents = File::get("$basePath/README.md");
+        $envContents = File::get("$basePath/.env.example");
         $composerConfig = json_decode(File::get("$basePath/composer.json"), true);
 
-        $this->assertStringContainsString($firstProjectName, $contents);
+        $this->assertStringContainsString($firstProjectName, $readmeContents);
+        $this->assertStringContainsString($firstProjectName, $envContents);
+        $this->assertStringContainsString(Str::slug($firstProjectName), $envContents);
         $this->assertEquals("$composerNamespace/".Str::slug($firstProjectName), $composerConfig['name']);
         $this->assertEquals($firstProjectName.': '.StarterKitServiceProvider::PROJECT_DESCRIPTION, $composerConfig['description']);
 

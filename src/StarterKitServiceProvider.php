@@ -21,6 +21,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
 
     public const INSTALL_FILES = [
         'README.md',
+        '.env.example',
         '.gitignore',
         '.lando.yml',
     ];
