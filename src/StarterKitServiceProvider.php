@@ -142,7 +142,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
             ]
         );
         $this->populatePlaceholders([
-            'resources/views/' . self::THEME_NAME . '-index.blade.php',
+            'resources/views/'.self::THEME_NAME.'-index.blade.php',
         ], $projectName);
     }
 
