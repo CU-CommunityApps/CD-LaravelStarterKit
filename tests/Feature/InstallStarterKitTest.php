@@ -81,7 +81,7 @@ class InstallStarterKitTest extends TestCase
         $this->assertStringContainsString($firstProjectName, $envContents);
         $this->assertStringContainsString(Str::slug($firstProjectName), $envContents);
         $this->assertEquals("$composerNamespace/".Str::slug($firstProjectName), $composerConfig['name']);
-        $this->assertEquals($firstProjectName.': '.StarterKitServiceProvider::PROJECT_DESCRIPTION, $composerConfig['description']);
+        $this->assertEquals($firstProjectDescription, $composerConfig['description']);
 
         $this->artisan("$packageName:install")
             ->expectsQuestion('Project name', $secondProjectName)

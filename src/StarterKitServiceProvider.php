@@ -84,7 +84,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         if ($shouldInstallFiles) {
             $this->publishFiles($command);
             $this->populatePlaceholders(self::INSTALL_FILES, $projectName, $projectDescription);
-            $this->updateComposerJson($projectName);
+            $this->updateComposerJson($projectName, $projectDescription);
         }
 
         $shouldInstallAssets = $command->confirm(
@@ -146,14 +146,14 @@ class StarterKitServiceProvider extends PackageServiceProvider
         ], $projectName);
     }
 
-    private function updateComposerJson(mixed $projectName)
+    private function updateComposerJson(string $projectName, string $projectDescription)
     {
         $composerFile = base_path('composer.json');
         $composerConfig = json_decode(File::get($composerFile), true);
 
         $replacements = [
             'name' => self::COMPOSER_NAMESPACE.'/'.Str::slug($projectName),
-            'description' => $projectName.': '.StarterKitServiceProvider::PROJECT_DESCRIPTION,
+            'description' => $projectDescription,
         ];
 
         foreach ($replacements as $key => $replacement) {
