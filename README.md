@@ -35,7 +35,7 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
    ```shell
    php artisan starterkit:install
    ```
-   This will publish `README.md`, `.lando.yml` and `.gitignore` files to the base directory, configured on the project settings and update the `composer.json` file to match. It will also publish HTML/CSS/JS assets from [cwd_framework_lite](https://github.com/CU-CommunityApps/cwd_framework_lite) and a set of [view components](https://laravel.com/docs/9.x/blade#layouts-using-components) that can be used to begin a layout (see `views/cwd-framework-index.blade.php` for example usage).
+   This will publish `README.md`, `.env.example`, `.gitignore`, and `.lando.yml` files to the base directory, configured on the project settings and update the `composer.json` file to match. It will also publish HTML/CSS/JS assets from [cwd_framework_lite](https://github.com/CU-CommunityApps/cwd_framework_lite) and a set of [view components](https://laravel.com/docs/9.x/blade#layouts-using-components) that can be used to begin a layout (see `views/cwd-framework-index.blade.php` for example usage).
    > **NOTE**: The install step updates `.gitignore` so that the vendor directory is no longer excluded. The next commit will be large because it includes everything in the vendor directory.
    >```shell
    > git add . && git commit -m "Starter Kit install"

@@ -74,6 +74,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         $command->info('Installing StarterKit...');
 
         $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
+        $projectDescription = $command->ask('Project description', self::PROJECT_DESCRIPTION);
 
         $file_list = Arr::join(self::INSTALL_FILES, ', ');
         $shouldInstallFiles = $command->confirm(
@@ -82,7 +83,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         );
         if ($shouldInstallFiles) {
             $this->publishFiles($command);
-            $this->populatePlaceholders($projectName, self::INSTALL_FILES);
+            $this->populatePlaceholders(self::INSTALL_FILES, $projectName, $projectDescription);
             $this->updateComposerJson($projectName);
         }
 
@@ -109,11 +110,12 @@ class StarterKitServiceProvider extends PackageServiceProvider
         );
     }
 
-    public static function populatePlaceholders(string $projectName, $files): void
+    public static function populatePlaceholders($files, string $projectName, ?string $projectDescription = null): void
     {
         $replacements = [
             ':project_name' => $projectName,
             ':project_slug' => Str::slug($projectName),
+            ':project_description' => $projectDescription ?? self::PROJECT_DESCRIPTION,
         ];
 
         foreach ($files as $file) {
@@ -139,9 +141,9 @@ class StarterKitServiceProvider extends PackageServiceProvider
                 '--force' => true,
             ]
         );
-        $this->populatePlaceholders($projectName, [
-            'resources/views/'.self::THEME_NAME.'-index.blade.php',
-        ]);
+        $this->populatePlaceholders([
+            'resources/views/' . self::THEME_NAME . '-index.blade.php',
+        ], $projectName);
     }
 
     private function updateComposerJson(mixed $projectName)
