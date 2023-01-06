@@ -143,3 +143,12 @@ Recommendations
 When adding a recommendation (rather than a "must fix"), make sure the changes are worth the time and support development goals ([see README](README.md)).
 
 When acting upon recommendations, presume that the review comment should be implemented unless there is a reason not to.
+
+### Release management
+Since the Laravel Starter Kit is a composer-delivered package, it should have tagged releases that use semantic versioning to identify the nature of releases. The Laravel Package Development site has a good description of [how to publish a release with GitHub](https://laravelpackage.com/15-publishing.html#releasing-v1-0-0) and release version numbering.
+
+Guidelines for releases of the Laravel Starter Kit:
+- Major releases are reserved for fundamental changes to the architecture, including backwards-incompatible changes. There should be consensus on a major release being required.
+- Minor releases are bundled sets of non-breaking changes and there should be a consensus approval for the set of changes being release-ready.
+- Patch-level releases address bugs, minor dependency updates, or trivial changes and a pull-request review process is sufficient for approving as a release.
+- When [publishing a release in GitHub](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases), provide a good summary of the work that is bundled in the release. Note: GitHub provides a mechanism for [automatically summarizing the content of a release](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes).
