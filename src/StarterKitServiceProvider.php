@@ -11,28 +11,53 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class StarterKitServiceProvider extends PackageServiceProvider
 {
+    const PACKAGE_NAME = 'starterkit';
+
+    const THEME_NAME = 'cwd-framework';
+
     public const INSTALL_FILES = [
         'README.md',
         '.lando.yml',
+    ];
+
+    public const ASSET_FILES = [
+        'css',
+        'fonts',
+        'images',
+        'js',
+        'favicon.ico',
     ];
 
     public function boot()
     {
         parent::boot();
 
+        $themeDir = '/vendor/cubear/cwd_framework_lite';
+        $themeAssetsPath = File::isDirectory(base_path().$themeDir) ? base_path() : __DIR__.'/..';
+
         if ($this->app->runningInConsole()) {
             foreach (self::INSTALL_FILES as $installFileName) {
                 $this->publishes([
                     __DIR__."/../project/{$installFileName}" => base_path($installFileName),
-                ], "{$this->package->shortName()}-install");
+                ], self::PACKAGE_NAME.'-install');
             }
+
+            foreach (self::ASSET_FILES as $asset_file) {
+                $this->publishes([$themeAssetsPath.$themeDir.'/'.$asset_file => public_path(self::THEME_NAME.'/'.$asset_file),
+                ], self::THEME_NAME.'-assets');
+            }
+            $exampleFile = self::THEME_NAME.'-index.blade.php';
+            $this->publishes([
+                __DIR__.'/../resources/views/components/'.self::THEME_NAME => resource_path('/views/components/'.self::THEME_NAME),
+                __DIR__."/../resources/views/$exampleFile" => resource_path("/views/$exampleFile"),
+            ], self::THEME_NAME.'-assets');
         }
     }
 
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('starterkit')
+            ->name(self::PACKAGE_NAME)
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->startWith(fn (InstallCommand $c) => $this->install($c));
             });
@@ -42,16 +67,24 @@ class StarterKitServiceProvider extends PackageServiceProvider
     {
         $command->info('Installing StarterKit...');
 
+        $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
+
         $file_list = Arr::join(self::INSTALL_FILES, ', ');
         $shouldInstallFiles = $command->confirm(
             question: "Use Starter Kit files ($file_list)?",
             default: true,
         );
-
         if ($shouldInstallFiles) {
-            $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
             $this->publishFiles($command);
-            $this->populatePlaceholders($projectName);
+            $this->populatePlaceholders($projectName, self::INSTALL_FILES);
+        }
+
+        $shouldInstallAssets = $command->confirm(
+            question: 'Install cwd-framework assets?',
+            default: true,
+        );
+        if ($shouldInstallAssets) {
+            $this->publishAssets($command, $projectName);
         }
 
         $command->info('File installation complete.');
@@ -63,20 +96,20 @@ class StarterKitServiceProvider extends PackageServiceProvider
             command: 'vendor:publish',
             arguments: [
                 '--provider' => StarterKitServiceProvider::class,
-                '--tag' => "{$this->package->shortName()}-install",
+                '--tag' => self::PACKAGE_NAME.'-install',
                 '--force' => true,
             ]
         );
     }
 
-    public function populatePlaceholders(string $projectName): void
+    public static function populatePlaceholders(string $projectName, $files): void
     {
         $replacements = [
             ':project_name' => $projectName,
             ':project_slug' => Str::slug($projectName),
         ];
 
-        foreach (self::INSTALL_FILES as $file) {
+        foreach ($files as $file) {
             $contents = File::get(base_path($file));
 
             $newContents = str_replace(
@@ -87,5 +120,20 @@ class StarterKitServiceProvider extends PackageServiceProvider
 
             File::put(base_path($file), $newContents);
         }
+    }
+
+    private function publishAssets(InstallCommand $command, $projectName)
+    {
+        $command->call(
+            command: 'vendor:publish',
+            arguments: [
+                '--provider' => StarterKitServiceProvider::class,
+                '--tag' => self::THEME_NAME.'-assets',
+                '--force' => true,
+            ]
+        );
+        $this->populatePlaceholders($projectName, [
+            'resources/views/'.self::THEME_NAME.'-index.blade.php',
+        ]);
     }
 }

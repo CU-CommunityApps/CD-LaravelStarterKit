@@ -13,16 +13,36 @@ class InstallStarterKitTest extends TestCase
 {
     public function testCanRunInstall()
     {
-        foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
-            File::delete($this->getBasePath().DIRECTORY_SEPARATOR.$filename);
-        }
-        $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
+        $basePath = $this->getBasePath();
+        $packageName = StarterKitServiceProvider::PACKAGE_NAME;
+        $themeName = StarterKitServiceProvider::THEME_NAME;
+        $projectName = 'Test Project';
 
-        $this->artisan('starterkit:install')
+        // Delete files from previous tests
+        foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
+            File::delete("$basePath/$filename");
+        }
+        File::deleteDirectory("$basePath/public/$themeName");
+        File::deleteDirectory("$basePath/resources/views/components/$themeName");
+
+        $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
+        $this->artisan("{$packageName}:install")
+            ->expectsQuestion('Project name', $projectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', 'Test Project')
+            ->expectsConfirmation('Install cwd-framework assets?', 'yes')
             ->expectsOutputToContain('File installation complete.')
             ->assertExitCode(Command::SUCCESS);
+
+        $this->assertFileExists("$basePath/README.md");
+        $this->assertFileExists("$basePath/public/$themeName/css/base.css");
+        $this->assertFileDoesNotExist("$basePath/public/$themeName/sass/base.scss");
+        $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
+        $this->assertFileExists("$basePath/resources/views/components/$themeName/layout/app.blade.php");
+        $this->assertFileExists("$basePath/resources/views/$themeName-index.blade.php");
+        $this->assertStringContainsString(
+            needle: $projectName,
+            haystack: File::get("$basePath/resources/views/$themeName-index.blade.php")
+        );
     }
 
     public function testInstallReplacesFiles()
@@ -30,24 +50,28 @@ class InstallStarterKitTest extends TestCase
         $firstProjectName = 'First Project';
         $secondProjectName = 'Second Project';
         $basePath = $this->getBasePath();
+        $packageName = StarterKitServiceProvider::PACKAGE_NAME;
+        $themeName = StarterKitServiceProvider::THEME_NAME;
 
         foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
-            File::delete($basePath.DIRECTORY_SEPARATOR.$filename);
+            File::delete("$basePath/$filename");
         }
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
 
-        $this->artisan('starterkit:install')
+        $this->artisan("{$packageName}:install")
+            ->expectsQuestion('Project name', $firstProjectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', $firstProjectName);
-        $contents = File::get($basePath.DIRECTORY_SEPARATOR.'README.md');
+            ->expectsConfirmation('Install cwd-framework assets?', 'yes');
+        $contents = File::get("$basePath/README.md");
 
         $this->assertStringContainsString($firstProjectName, $contents);
 
-        $this->artisan('starterkit:install')
+        $this->artisan("{$packageName}:install")
+            ->expectsQuestion('Project name', $secondProjectName)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
-            ->expectsQuestion('Project name', $secondProjectName);
-        $readmeContents = File::get($basePath.DIRECTORY_SEPARATOR.'README.md');
-        $landoContents = File::get($basePath.DIRECTORY_SEPARATOR.'.lando.yml');
+            ->expectsConfirmation('Install cwd-framework assets?', 'yes');
+        $readmeContents = File::get("$basePath/README.md");
+        $landoContents = File::get("$basePath/.lando.yml");
 
         $this->assertStringContainsString($secondProjectName, $readmeContents);
         $this->assertStringContainsString(Str::slug($secondProjectName), $landoContents);

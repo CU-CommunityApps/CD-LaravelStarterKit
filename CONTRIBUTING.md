@@ -1,4 +1,4 @@
-# Contributing to CD-LaravelStarterKit
+# Contributing to the Laravel Starter Kit
 
 ## Getting Started
 There are several places for information on what needs to be worked on:
@@ -6,20 +6,26 @@ There are several places for information on what needs to be worked on:
 - See the [GitHub project discussions](https://github.com/CU-CommunityApps/CD-LaravelStarterKit/discussions) for general notes and discussion.
 - See the [GitHub issues list](https://github.com/CU-CommunityApps/CD-LaravelStarterKit/issues) and [pull requests](https://github.com/CU-CommunityApps/CD-LaravelStarterKit/pulls) for work that needs to be done or reviewed.
 
+## Starter Kits, Projects, and Packages
+Contributing code to the Laravel Starter Kit will generally happen in this repository, but doing so requires understanding the different layers by which the Starter Kit is implemented and delivered.
+
+- **Projects** are client sites built with the Starter Kit. The process for using the Stater Kit when starting a project is documented in the [README](./README.md).
+- The **Laravel Starter Kit** is a package that is delivered with composer and has its own composer dependencies on Laravel and Custom Dev packages (see the [composer.json file](./composer.json)).
+- **Other packages**, such as `cubear/cwd_framework_lite` are developed separately but used by the Starter Kit.
+- The `orchestra/testbench` package is a dev-only requirement of the Starter Kit that places a Laravel project directory in `./vendor/orchestra/testbench-core/laravel` that is used for running automated tests.
+- There are settings in `.gitattributes` file and `composer.json` which make sure that resources needed to develop the Starter Kit do not get included when installing the Starter Kit in a project.
+
 ## Local Development Setup
-The Laravel Starter Kit is a package, so the development and use of it is not the same as a Laravel project. It may be of use to read [Laravel Package Development](https://laravelpackage.com/) and the [Laravel Package Development documentation](https://laravel.com/docs/9.x/packages).
+Since the Laravel Starter Kit is a package, the development of it is not the same as a Laravel project. It may be of use to read [Laravel Package Development](https://laravelpackage.com/) and the [Laravel Package Development documentation](https://laravel.com/docs/9.x/packages) and make sure that you understand the distinctions outlined above in [Starter Kits, Projects, and Packages](#starter-kits-projects-and-packages).
 
-Local development of CD-LaravelStarterKit requires an environment with php, composer, and git. The `.lando.yml` provided in this package can set up that environment in Docker (run `lando start`) and then a shell with that environment can be used by running `lando ssh`.
-
-### Installing dependencies
-To fully set up your local environment, you will need to install the composer-managed dependencies:
+This repository has a `.lando.yml` that can be used to run the development environment. It is not a requirement. Once you run `lando start`, you should be able to open a terminal with:
 
 ```shell
-lando start
-lando composer install
+lando ssh
 ```
 
-or, if you have `composer` version 2 installed and up-to-date locally: 
+### Installing dependencies
+To fully set up your local environment, you will need to install the composer-managed dependencies (if you are not using lando, please make sure to use an up-to-date instance of composer version 2):
 
 ```shell
 composer install
@@ -27,7 +33,49 @@ composer install
 
 You should then confirm that everything is set up properly by running the tests and confirming they pass ([see Testing](#Testing) below).
 
-Since the `vendor` directory is not committed to the repository, it is important to run `composer install` whenever there are dependency updates. This is also a good first step if tests are failing and you have not made any local changes.
+```shell
+php ./vendor/bin/phpunit
+```
+
+> **NOTE**<br>
+> Since the `vendor` directory is not committed to the repository, it is important to run `composer install` whenever there are dependency updates. This is also a good first step if tests are failing and you have not made any local changes.
+
+### Functional testing
+Since the Starter Kit is a package, functionally testing it requires creating a Laravel project and then composer requiring the Starter Kit. 
+
+- Follow the [README - Usage](./README.md#usage) steps to set up a test Laravel project
+- Once you have done this you should have a working Laravel site with the cwd_framework theming
+
+While this is successful for seeing how someone will use the Starter Kit, it is not a fast way to develop and test changes, since you will need to push a commit to GitHub and then composer require an update to the Starter Kit to get the changes into your test project. Read the next section for an alternative local approach.
+
+#### Local composer repository 
+For testing, you can composer require the starter kit using a path reference, which is much faster than committing and pushing to GitHub and then running composer update. Good instructions for how to do this can be found on the [Laravel Package Development](https://laravelpackage.com/02-development-environment.html#importing-the-package-locally) site. If you are using Lando, you will also need to modify your `.lando.local.yml` to map a directory for the path.
+
+Example `.lando.local.yml` mapping a host directory of `../LaravelStarterKit` to `/laravel-starter-kit` inside the Docker container of the test Laravel project:
+```yaml
+name: laravel-project
+recipe: laravel
+config:
+  webroot: ./public
+  php: 8.1
+  composer_version: 2-latest
+
+services:
+  appserver:
+    overrides:
+      volumes:
+        - ../LaravelStarterKit:/laravel-starter-kit
+```
+
+With that set up the `composer.json` should have a repository definition that installs your local Starter Kit code as a symbolic link from the mapped directory:
+```
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/laravel-starter-kit"
+        }
+    ],
+```
 
 ## Development Standards
 Meeting the goals of the Starter Kit includes developing in ways that make it easy to collaborate, maintain, and support our work.
