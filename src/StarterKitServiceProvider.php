@@ -24,6 +24,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         '.env.example',
         '.gitignore',
         '.lando.yml',
+        'public/.htaccess',
     ];
 
     public const ASSET_FILES = [
