@@ -58,6 +58,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
     {
         $package
             ->name(self::PACKAGE_NAME)
+            ->hasConfigFile()
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->startWith(fn (InstallCommand $c) => $this->install($c));
             });
