@@ -15,9 +15,16 @@ class StarterKitServiceProvider extends PackageServiceProvider
 
     const THEME_NAME = 'cwd-framework';
 
+    const COMPOSER_NAMESPACE = 'cornell-custom-dev';
+
+    const PROJECT_DESCRIPTION = 'A project built from Cornell Custom Dev Laravel Starter Kit.';
+
     public const INSTALL_FILES = [
         'README.md',
+        '.env.example',
+        '.gitignore',
         '.lando.yml',
+        'public/.htaccess',
     ];
 
     public const ASSET_FILES = [
@@ -68,6 +75,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         $command->info('Installing StarterKit...');
 
         $projectName = $command->ask('Project name', Str::title(File::basename(base_path())));
+        $projectDescription = $command->ask('Project description', self::PROJECT_DESCRIPTION);
 
         $file_list = Arr::join(self::INSTALL_FILES, ', ');
         $shouldInstallFiles = $command->confirm(
@@ -76,7 +84,8 @@ class StarterKitServiceProvider extends PackageServiceProvider
         );
         if ($shouldInstallFiles) {
             $this->publishFiles($command);
-            $this->populatePlaceholders($projectName, self::INSTALL_FILES);
+            $this->populatePlaceholders(self::INSTALL_FILES, $projectName, $projectDescription);
+            $this->updateComposerJson($projectName, $projectDescription);
         }
 
         $shouldInstallAssets = $command->confirm(
@@ -102,11 +111,12 @@ class StarterKitServiceProvider extends PackageServiceProvider
         );
     }
 
-    public static function populatePlaceholders(string $projectName, $files): void
+    public static function populatePlaceholders($files, string $projectName, ?string $projectDescription = null): void
     {
         $replacements = [
             ':project_name' => $projectName,
             ':project_slug' => Str::slug($projectName),
+            ':project_description' => $projectDescription ?? self::PROJECT_DESCRIPTION,
         ];
 
         foreach ($files as $file) {
@@ -132,8 +142,25 @@ class StarterKitServiceProvider extends PackageServiceProvider
                 '--force' => true,
             ]
         );
-        $this->populatePlaceholders($projectName, [
+        $this->populatePlaceholders([
             'resources/views/'.self::THEME_NAME.'-index.blade.php',
-        ]);
+        ], $projectName);
+    }
+
+    private function updateComposerJson(string $projectName, string $projectDescription)
+    {
+        $composerFile = base_path('composer.json');
+        $composerConfig = json_decode(File::get($composerFile), true);
+
+        $replacements = [
+            'name' => self::COMPOSER_NAMESPACE.'/'.Str::slug($projectName),
+            'description' => $projectDescription,
+        ];
+
+        foreach ($replacements as $key => $replacement) {
+            $composerConfig[$key] = $replacement;
+        }
+
+        File::put($composerFile, json_encode($composerConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 }

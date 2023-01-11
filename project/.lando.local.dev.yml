@@ -1,0 +1,8 @@
+services:
+  appserver:
+    overrides:
+      ## Example mapping of a directory called "LaravelStarterKit"
+      ## This directory can be referenced via composer.json as a repository source
+      ## See CONTRIBUTING.md for details
+      volumes:
+        - ../LaravelStarterKit:/laravel-starter-kit
