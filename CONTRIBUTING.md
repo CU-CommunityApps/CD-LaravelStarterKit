@@ -49,25 +49,16 @@ Since the Starter Kit is a package, functionally testing it requires creating a 
 While this is successful for seeing how someone will use the Starter Kit, it is not a fast way to develop and test changes, since you will need to push a commit to GitHub and then composer require an update to the Starter Kit to get the changes into your test project. Read the next section for an alternative local approach.
 
 #### Local composer repository 
-For testing, you can composer require the starter kit using a path reference, which is much faster than committing and pushing to GitHub and then running composer update. Good instructions for how to do this can be found on the [Laravel Package Development](https://laravelpackage.com/02-development-environment.html#importing-the-package-locally) site. If you are using Lando, you will also need to modify your `.lando.local.yml` to map a directory for the path.
+For testing, you can composer require the starter kit using a path reference, which is much faster than committing and
+pushing to GitHub and then running composer update. Good instructions for how to do this can be found on
+the [Laravel Package Development](https://laravelpackage.com/02-development-environment.html#importing-the-package-locally)
+site.
 
-Example `.lando.local.yml` mapping a host directory of `../LaravelStarterKit` to `/laravel-starter-kit` inside the Docker container of the test Laravel project:
-```yaml
-name: laravel-project
-recipe: laravel
-config:
-  webroot: ./public
-  php: 8.1
-  composer_version: 2-latest
+If you are using Lando, you will also need a project `.lando.local.yml` to map a directory for the path. An example is
+provided in [`/project/.lando.local.dev.html`](./project/.lando.local.dev.yml).
 
-services:
-  appserver:
-    overrides:
-      volumes:
-        - ../LaravelStarterKit:/laravel-starter-kit
-```
-
-With that set up the `composer.json` should have a repository definition that installs your local Starter Kit code as a symbolic link from the mapped directory:
+Your `composer.json` needs a repository definition that installs your local Starter Kit code as a symbolic link from the
+mapped directory:
 ```
     "repositories": [
         {
@@ -76,6 +67,8 @@ With that set up the `composer.json` should have a repository definition that in
         }
     ],
 ```
+
+The `url` value should be the full path to the directory.
 
 ## Development Standards
 Meeting the goals of the Starter Kit includes developing in ways that make it easy to collaborate, maintain, and support our work.
