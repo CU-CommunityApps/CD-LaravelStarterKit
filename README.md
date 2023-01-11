@@ -58,7 +58,7 @@ Once a Media3 site has been created, you have confirmed you can reach the defaul
 You will likely need to map the `php` command to the correct version by editing `~/.bashrc` to include this alias (for this to take effect, run `source ~/.bashrc` or just log in again):
 ```shell
 # User specific aliases and functions
-alias php="/opt/cpanel/ea-php81/root/usr/bin/php"
+alias php="/usr/local/bin/ea-php81"
 ```
 
 Since `www/your-site/public` will already exist, you need to do a little moving things around to git clone your site repo from GitHub:
