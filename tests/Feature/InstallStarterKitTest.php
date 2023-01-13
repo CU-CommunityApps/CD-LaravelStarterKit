@@ -17,6 +17,7 @@ class InstallStarterKitTest extends TestCase
         $packageName = StarterKitServiceProvider::PACKAGE_NAME;
         $themeName = StarterKitServiceProvider::THEME_NAME;
         $projectName = 'Test Project';
+        $projectDescription = StarterKitServiceProvider::PROJECT_DESCRIPTION;
 
         // Delete files from previous tests
         foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
@@ -28,12 +29,15 @@ class InstallStarterKitTest extends TestCase
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
         $this->artisan("{$packageName}:install")
             ->expectsQuestion('Project name', $projectName)
+            ->expectsQuestion('Project description', $projectDescription)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsConfirmation('Install cwd-framework assets?', 'yes')
             ->expectsOutputToContain('File installation complete.')
             ->assertExitCode(Command::SUCCESS);
 
-        $this->assertFileExists("$basePath/README.md");
+        foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
+            $this->assertFileExists("$basePath/$filename");
+        }
         $this->assertFileExists("$basePath/public/$themeName/css/base.css");
         $this->assertFileDoesNotExist("$basePath/public/$themeName/sass/base.scss");
         $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
@@ -47,27 +51,41 @@ class InstallStarterKitTest extends TestCase
 
     public function testInstallReplacesFiles()
     {
+        $composerNamespace = StarterKitServiceProvider::COMPOSER_NAMESPACE;
         $firstProjectName = 'First Project';
+        $firstProjectDescription = 'My first new project';
         $secondProjectName = 'Second Project';
+        $secondProjectDescription = 'My second new project';
         $basePath = $this->getBasePath();
         $packageName = StarterKitServiceProvider::PACKAGE_NAME;
-        $themeName = StarterKitServiceProvider::THEME_NAME;
 
         foreach (StarterKitServiceProvider::INSTALL_FILES as $filename) {
             File::delete("$basePath/$filename");
         }
         $file_list = Arr::join(StarterKitServiceProvider::INSTALL_FILES, ', ');
 
-        $this->artisan("{$packageName}:install")
+        $composerConfig = json_decode(File::get("$basePath/composer.json"), true);
+        $this->assertArrayHasKey('name', $composerConfig);
+
+        $this->artisan("$packageName:install")
             ->expectsQuestion('Project name', $firstProjectName)
+            ->expectsQuestion('Project description', $firstProjectDescription)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsConfirmation('Install cwd-framework assets?', 'yes');
-        $contents = File::get("$basePath/README.md");
+        $readmeContents = File::get("$basePath/README.md");
+        $envContents = File::get("$basePath/.env.example");
+        $composerConfig = json_decode(File::get("$basePath/composer.json"), true);
 
-        $this->assertStringContainsString($firstProjectName, $contents);
+        $this->assertStringContainsString($firstProjectName, $readmeContents);
+        $this->assertStringContainsString($firstProjectDescription, $readmeContents);
+        $this->assertStringContainsString($firstProjectName, $envContents);
+        $this->assertStringContainsString(Str::slug($firstProjectName), $envContents);
+        $this->assertEquals("$composerNamespace/".Str::slug($firstProjectName), $composerConfig['name']);
+        $this->assertEquals($firstProjectDescription, $composerConfig['description']);
 
-        $this->artisan("{$packageName}:install")
+        $this->artisan("$packageName:install")
             ->expectsQuestion('Project name', $secondProjectName)
+            ->expectsQuestion('Project description', $secondProjectDescription)
             ->expectsConfirmation("Use Starter Kit files ($file_list)?", 'yes')
             ->expectsConfirmation('Install cwd-framework assets?', 'yes');
         $readmeContents = File::get("$basePath/README.md");
