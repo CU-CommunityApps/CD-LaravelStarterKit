@@ -19,6 +19,7 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
    >**NOTE**: If you have GitHub CLI installed, you can immediately add this to GitHub as a repo with the following commands (be sure to replace the "your-app-name" references with your project info):
    > ```shell
    > cd your-app-name
+   > git init
    > git add . && git commit -m "Initial commit"
    > git branch -m main
    > gh repo create --private CU-CommunityApps/CD-your-app-name
