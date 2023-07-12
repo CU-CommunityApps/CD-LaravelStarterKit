@@ -50,7 +50,7 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
    ```
    Then visit https://your-app-name.lndo.site and you should see the default Laravel page. To see the Laravel Starter Kit example page, edit `/resources/views/welcome.blade.php` to be:
     ```blade
-    @include('cwd-framework-index.blade.php')
+    @include('cwd-framework-index')
     ```
 
 ## Deploying a site
