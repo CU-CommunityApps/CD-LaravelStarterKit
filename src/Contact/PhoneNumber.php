@@ -19,7 +19,7 @@ class PhoneNumber
 
     private bool $isValid = false;
 
-    public function __construct(string $number, ?string $countryCallingCode = null)
+    public function __construct(string $number, string $countryCallingCode = null)
     {
         $this->sourceNumber = $number;
         $this->sourceCountryCallingCode = $countryCallingCode ?: null;
@@ -30,7 +30,7 @@ class PhoneNumber
         }
     }
 
-    public static function make(string $number, ?string $countryCallingCode = null): ?self
+    public static function make(string $number, string $countryCallingCode = null): ?self
     {
         return new self($number, $countryCallingCode);
     }
@@ -94,7 +94,7 @@ class PhoneNumber
         return $numberWithoutCode;
     }
 
-    private function parseNumber(string $number, ?string $countryCallingCode = null): ?LaravelPhoneNumber
+    private function parseNumber(string $number, string $countryCallingCode = null): ?LaravelPhoneNumber
     {
         // If we don't have a calling code, just use the number directly
         if (empty($countryCallingCode)) {
