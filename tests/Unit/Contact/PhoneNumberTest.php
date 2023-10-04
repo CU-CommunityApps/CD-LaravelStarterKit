@@ -10,13 +10,11 @@ class PhoneNumberTest extends TestCase
 {
     public function testCanValidateNumber()
     {
-        $phoneNumber = LaravelPhoneNumber::make('6072551111', 'US');
-        $isValid = PhoneNumber::isValidNumber($phoneNumber);
-        $this->assertTrue($isValid);
+        $libPhoneNumber = new LaravelPhoneNumber('6072551111', 'US');
+        $this->assertTrue($libPhoneNumber->isValid());
 
-        $phoneNumber = LaravelPhoneNumber::make('2551111', 'US');
-        $isValid = PhoneNumber::isValidNumber($phoneNumber);
-        $this->assertFalse($isValid);
+        $libPhoneNumber = new LaravelPhoneNumber('2551111', 'US');
+        $this->assertFalse($libPhoneNumber->isValid());
     }
 
     public function testCanParseNumber()
@@ -73,16 +71,27 @@ class PhoneNumberTest extends TestCase
 
     public function testCanDefaultToSourceNumber()
     {
-        $phoneNumber = new PhoneNumber('607-255-1111', '+255');
+        $sourceNumber = '607-255-1111';
+        $sourceCountryCallingCode = '+801';
+        $phoneNumber = new PhoneNumber($sourceNumber, $sourceCountryCallingCode);
 
-        $this->assertEquals('+255 607-255-1111', $phoneNumber->getNumber());
+        // +801 is not a valid country calling code
+        $this->assertFalse($phoneNumber->isValid());
+
+        $this->assertEquals($sourceNumber, $phoneNumber->getSourceNumber());
+        $this->assertEquals($sourceNumber, $phoneNumber->getNumberWithoutCallingCode());
+        $this->assertEquals($sourceCountryCallingCode, $phoneNumber->getCallingCode());
+        $this->assertEquals('+801 607-255-1111', $phoneNumber->getNumber());
     }
 
     public function testCanGetNumberFormattedForUS()
     {
         $phoneNumber = PhoneNumber::formatNumberForUS('6072551111');
-
         $this->assertEquals('(607) 255-1111', $phoneNumber);
+
+        // Default to the data provided
+        $phoneNumber = new PhoneNumber('255-1111');
+        $this->assertEquals('255-1111', $phoneNumber->getNumberFormattedForUS());
     }
 
     public function testCanGetInternationalNumberFormattedForUS()
@@ -93,9 +102,8 @@ class PhoneNumberTest extends TestCase
         $phoneNumber = new PhoneNumber('44 668 1800', '41');
         $this->assertEquals('+41 44 668 18 00', $phoneNumber->getNumberFormattedForUS());
 
-        // If no region code is unambiguous, present the number as provided
         $phoneNumber = new PhoneNumber('41 44 668 1800');
-        $this->assertEquals('41 44 668 1800', $phoneNumber->getNumberFormattedForUS());
+        $this->assertEquals('+41 44 668 18 00', $phoneNumber->getNumberFormattedForUS());
     }
 
     public function testCanGetNumberFormattedForTel()
@@ -105,6 +113,10 @@ class PhoneNumberTest extends TestCase
 
         $phoneNumber = new PhoneNumber('44 668 1800', '41');
         $this->assertEquals('+41446681800', $phoneNumber->getNumberFormattedForTel());
+
+        // Default to the data provided
+        $phoneNumber = new PhoneNumber('255-1111');
+        $this->assertEquals('255-1111', $phoneNumber->getNumberFormattedForTel());
     }
 
     public function testCanGetCallingCodeForRegion()
@@ -120,5 +132,17 @@ class PhoneNumberTest extends TestCase
 
         $this->assertArrayHasKey('US', $list);
         $this->assertEquals('United States (1)', $list['US']);
+    }
+
+    public function testCanGetCountryForNumber()
+    {
+        $phoneNumber = new PhoneNumber('6072551111');
+        $this->assertEquals('US', $phoneNumber->getCountry());
+
+        $phoneNumber = new PhoneNumber('+41 44 668 1800');
+        $this->assertEquals('CH', $phoneNumber->getCountry());
+
+        $phoneNumber = new PhoneNumber('255-1111');
+        $this->assertNull($phoneNumber->getCountry());
     }
 }

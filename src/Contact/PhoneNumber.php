@@ -5,7 +5,6 @@ namespace CornellCustomDev\LaravelStarterKit\Contact;
 use Exception;
 use Giggsey\Locale\Locale;
 use Illuminate\Support\Facades\Log;
-use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use Propaganistas\LaravelPhone\PhoneNumber as LaravelPhoneNumber;
 
@@ -50,7 +49,7 @@ class PhoneNumber
             return false;
         }
 
-        return ! is_null($this->getCountry());
+        return $this->phoneNumber?->isValid() ?? false;
     }
 
     public static function getCountryListWithIntlCode()
@@ -74,7 +73,7 @@ class PhoneNumber
     public function getCallingCode(): ?int
     {
         if (! $this->isValid()) {
-            return null;
+            return $this->sourceCountryCallingCode;
         }
         $regionCode = $this->phoneNumber->getCountry();
         $phoneUtil = PhoneNumberUtil::getInstance();
@@ -85,7 +84,7 @@ class PhoneNumber
     public function getNumberWithoutCallingCode(): string
     {
         if (! $this->isValid()) {
-            return $this->getNumber();
+            return $this->sourceNumber;
         }
 
         $callingCode = $this->getCallingCode();
@@ -98,14 +97,14 @@ class PhoneNumber
     {
         // If we don't have a calling code, just use the number directly
         if (empty($countryCallingCode)) {
-            $phoneNumber = LaravelPhoneNumber::make($number, 'US');
-            if (self::isValidNumber($phoneNumber)) {
+            $phoneNumber = new LaravelPhoneNumber($number, 'US');
+            if ($phoneNumber->isValid()) {
                 $this->isValid = true;
 
                 return $phoneNumber;
             }
-            $phoneNumber = LaravelPhoneNumber::make('+'.trim('+', $number), 'US');
-            if (self::isValidNumber($phoneNumber)) {
+            $phoneNumber = new LaravelPhoneNumber('+'.ltrim($number, '+'), 'US');
+            if ($phoneNumber->isValid()) {
                 $this->isValid = true;
 
                 return $phoneNumber;
@@ -115,35 +114,23 @@ class PhoneNumber
         }
 
         // Assume good data first...
-        $phoneNumber = LaravelPhoneNumber::make('+'.$countryCallingCode.$number, 'US');
-        if (self::isValidNumber($phoneNumber)) {
+        $phoneNumber = new LaravelPhoneNumber('+'.ltrim($countryCallingCode, '+').' '.$number, 'US');
+        if ($phoneNumber->isValid()) {
             $this->isValid = true;
 
             return $phoneNumber;
         }
 
         // Didn't get parsable data, so try converting the country code
-        $countryCallingCode = ltrim($countryCallingCode, '0');
-        $phoneNumber = LaravelPhoneNumber::make('+'.$countryCallingCode.$number, 'US');
-        if (self::isValidNumber($phoneNumber)) {
+        $countryCallingCode = ltrim($countryCallingCode, '0+');
+        $phoneNumber = new LaravelPhoneNumber('+'.$countryCallingCode.' '.$number, 'US');
+        if ($phoneNumber->isValid()) {
             $this->isValid = true;
 
             return $phoneNumber;
         }
 
         return null;
-    }
-
-    public static function isValidNumber(LaravelPhoneNumber $phoneNumber): bool
-    {
-        try {
-            $phoneNumber->getCountry();
-            $phoneNumber->formatE164();
-
-            return true;
-        } catch (NumberParseException) {
-            return false;
-        }
     }
 
     public static function getCountryCallingCode(string $regionCode): ?int
