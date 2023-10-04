@@ -46,11 +46,11 @@ class PhoneNumber
 
     public function isValid(): bool
     {
-        if (!$this->isValid) {
+        if (! $this->isValid) {
             return false;
         }
 
-        return !is_null($this->getCountry());
+        return ! is_null($this->getCountry());
     }
 
     public static function getCountryListWithIntlCode()
@@ -73,7 +73,7 @@ class PhoneNumber
 
     public function getCallingCode(): ?int
     {
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             return null;
         }
         $regionCode = $this->phoneNumber->getCountry();
@@ -84,7 +84,7 @@ class PhoneNumber
 
     public function getNumberWithoutCallingCode(): string
     {
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             return $this->getNumber();
         }
 
@@ -156,7 +156,7 @@ class PhoneNumber
 
     public function getNumber(): string
     {
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             return trim($this->sourceCountryCallingCode.' '.$this->sourceNumber);
         }
 
@@ -165,7 +165,7 @@ class PhoneNumber
 
     public function getNumberFormattedForUS(): string
     {
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             return $this->getNumber();
         }
         if ($this->getCountry() == 'US') {
@@ -177,7 +177,7 @@ class PhoneNumber
 
     public function getNumberFormattedForTel(): string
     {
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             return $this->getNumber();
         }
 
