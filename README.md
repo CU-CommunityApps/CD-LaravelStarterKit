@@ -1,6 +1,6 @@
 # Laravel Starter Kit
 
-A Cornell University CIT Custom Development starter kit package for Laravel.
+A Cornell University CIT Custom Development starter kit and library for Laravel.
 
 ## Goals
 - Reduce time to build Laravel apps
@@ -10,6 +10,13 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
 - Lower barriers for support and reduce support time
 
 ## Usage
+
+The Starter Kit can be used as a starter kit for a new site or as a library for an existing site.
+
+### Starter Kit
+
+Used as a starter kit, this package deploys the cwd_framework_lite infrastructure and standard configuration files. The
+steps below get from a fresh Laravel install to a working site.
 
 1. Follow [standard Laravel project creation](https://laravel.com/docs/9.x/installation#your-first-laravel-project), namely
    ```shell
@@ -51,6 +58,23 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
     ```blade
     @include('cwd-framework-index.blade.php')
     ```
+
+### Existing Site
+
+For an existing Laravel site, this package can be composer-required to provide the library of classes. In this case, you
+will not need to run the full Starter Kit install.
+
+```php
+composer require --update-no-dev cornell-custom-dev/laravel-starter-kit
+
+```
+
+## Libraries
+
+The libraries included in the Starter Kit are documented in their respective README files:
+
+- [Contact/PhoneNumber](src/Contact/README.md): A library for parsing and formatting a phone number.
+
 
 ## Deploying a site
 Once a Media3 site has been created, you have confirmed you can reach the default site via a web browser, and you have access to the site login by command line, the code can be deployed.
