@@ -19,6 +19,7 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
    >**NOTE**: If you have GitHub CLI installed, you can immediately add this to GitHub as a repo with the following commands (be sure to replace the "your-app-name" references with your project info):
    > ```shell
    > cd your-app-name
+   > git init
    > git add . && git commit -m "Initial commit"
    > git branch -m main
    > gh repo create --private CU-CommunityApps/CD-your-app-name
@@ -49,7 +50,7 @@ A Cornell University CIT Custom Development starter kit package for Laravel.
    ```
    Then visit https://your-app-name.lndo.site and you should see the default Laravel page. To see the Laravel Starter Kit example page, edit `/resources/views/welcome.blade.php` to be:
     ```blade
-    @include('cwd-framework-index.blade.php')
+    @include('cwd-framework-index')
     ```
 
 ## Deploying a site
