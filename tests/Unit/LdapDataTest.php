@@ -2,7 +2,7 @@
 
 namespace CornellCustomDev\LaravelStarterKit\Tests\Unit;
 
-use CornellCustomDev\LaravelStarterKit\LDAP\LdapData;
+use CornellCustomDev\LaravelStarterKit\Ldap\LdapData;
 use CornellCustomDev\LaravelStarterKit\Tests\TestCase;
 
 class LdapDataTest extends TestCase
