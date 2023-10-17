@@ -5,6 +5,7 @@
   "type": "library",
   "require": {
     "php": "^8.1",
+    "ext-ldap": "*",
     "livewire/livewire": "^2.10",
     "spatie/laravel-package-tools": "^1.13",
     "cubear/cwd_framework_lite": "^3.0",
@@ -28,7 +29,8 @@
   "extra": {
     "laravel": {
       "providers": [
-        "CornellCustomDev\\LaravelStarterKit\\StarterKitServiceProvider"
+        "CornellCustomDev\\LaravelStarterKit\\StarterKitServiceProvider",
+        "CornellCustomDev\\LaravelStarterKit\\Ldap\\LdapDataServiceProvider"
       ]
     }
   },

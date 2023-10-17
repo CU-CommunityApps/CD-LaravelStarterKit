@@ -96,6 +96,20 @@ class StarterKitServiceProvider extends PackageServiceProvider
             $this->publishAssets($command, $projectName);
         }
 
+        $shouldInstallConfig = $command->confirm(
+            question: 'Install config files?',
+            default: true,
+        );
+        if ($shouldInstallConfig) {
+            $command->call(
+                command: 'vendor:publish',
+                arguments: [
+                    '--tag' => self::PACKAGE_NAME.':config',
+                    '--force' => true,
+                ]
+            );
+        }
+
         $command->info('File installation complete.');
     }
 
