@@ -114,7 +114,7 @@ class InstallStarterKitTest extends TestCase
         $ldapServer = config('ldap.server');
         $this->assertEquals($defaultServer, $ldapServer);
 
-        $this->artisan("vendor:publish --tag=ldap-config --force")
+        $this->artisan('vendor:publish --tag=ldap-config --force')
             ->assertExitCode(Command::SUCCESS);
 
         // Update the config file with a test value for ldap.server.
