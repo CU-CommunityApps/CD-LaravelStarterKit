@@ -34,7 +34,7 @@ class TestCase extends OrchestraTestCase
             filename: __DIR__."/Fixtures/$name",
         );
 
-        if (!$contents) {
+        if (! $contents) {
             throw new InvalidArgumentException(
                 message: "Cannot find fixture: tests/Fixtures/$name",
             );

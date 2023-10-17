@@ -127,12 +127,12 @@ class LdapData
     {
         $server = config('ldap.server');
         $connection = ldap_connect($server);
-        if (!$connection) {
+        if (! $connection) {
             throw new LdapDataException('Could not connect to LDAP server.');
         }
 
         $result = ldap_bind_ext($connection, "uid=$netid", config('ldap.pass'));
-        if (!$result) {
+        if (! $result) {
             throw new LdapDataException('Could not bind to LDAP server.');
         }
 
@@ -144,11 +144,11 @@ class LdapData
 
         try {
             $result = ldap_search($connection, config('ldap.base_dn'), "uid=$netid");
-            if (!$result) {
+            if (! $result) {
                 return null;
             }
             $result_entry = ldap_first_entry($connection, $result);
-            if (!$result_entry) {
+            if (! $result_entry) {
                 return null;
             }
             $response = ldap_get_attributes($connection, $result_entry);
@@ -156,7 +156,7 @@ class LdapData
             if ($debug) {
                 dump(json_encode($response));
             }
-            if (!$response) {
+            if (! $response) {
                 return null;
             }
             $data = self::parseResponse($response);
@@ -187,7 +187,7 @@ class LdapData
                 $parsedValue = $value;
             }
             // Only populate the field if we have data.
-            if (!empty($parsedValue)) {
+            if (! empty($parsedValue)) {
                 $data[$key] = $parsedValue;
             }
         }
