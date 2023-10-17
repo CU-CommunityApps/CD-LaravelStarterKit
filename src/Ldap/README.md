@@ -1,8 +1,8 @@
-# LdapData
+# LdapService
 
-A helper for retrieving Cornell University LDAP data.
+A service for retrieving Cornell University LDAP data.
 
-This helper wraps standard LDAP PHP extension functions, configured for Cornell University. It encapsulates
+This service is a wrapper for standard LDAP PHP extension functions, configured for Cornell University. It encapsulates
 standard Cornell LDAP attributes in a well-defined data structure.
 
 Environment variables that define the LDAP user and password should be set in the environment. See `.env.example`.
@@ -10,11 +10,11 @@ Environment variables that define the LDAP user and password should be set in th
 Example usage:
 
 ```php
-use CornellCustomDev\LaravelStarterKit\Ldap\LdapData;
+use CornellCustomDev\LaravelStarterKit\Ldap\LdapService;
 try {
-  $ldapData = LdapData::get($netid);
+  $ldapData = LdapService::get($netid);
   $displayName = $ldapData->displayName;
-} catch (LdapDataServiceException $e) {
+} catch (LdapServiceException $e) {
   ...
 }
 ```
@@ -30,7 +30,7 @@ Documentation of all currently parsed fields can be found in [LdapData.php](./Ld
 legacy `App\Helpers\LDAP` class that exists on many Cornell Laravel sites.
 
 ```php
-$ldapData = LdapData::get($netid)?->ldapData;
+$ldapData = LdapService::get($netid)?->ldapData;
 ```
 
 The value of this property matches the output of `LDAP::data($netid)`, but with the 'count' and 'count_values' keys
@@ -38,6 +38,6 @@ removed.
 
 ## Additional LDAP Attributes
 
-`LdapData::get($netid)->returnedData` is an array of all LDAP attributes returned, keyed by attribute name. The set
+`LdapService::get($netid)->returnedData` is an array of all LDAP attributes returned, keyed by attribute name. The set
 of attributes is a subset of the attributes documented
 at https://confluence.cornell.edu/pages/viewpage.action?spaceKey=IDM&title=Attributes.

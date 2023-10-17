@@ -2,10 +2,6 @@
 
 namespace CornellCustomDev\LaravelStarterKit\Ldap;
 
-use Exception;
-use Illuminate\Support\Facades\Cache;
-use InvalidArgumentException;
-
 /**
  * An immutable data object representing the LDAP data returned for a user.
  */
@@ -93,105 +89,5 @@ class LdapData
             ldapData: $ldapData,
             returnedData: $data,
         );
-    }
-
-    /**
-     * @throws LdapDataException
-     */
-    public static function get(string $netid, bool $bustCache = false): ?self
-    {
-        if (empty($netid)) {
-            throw new InvalidArgumentException('LdapData::get requires netid');
-        }
-
-        // Return a cached result if we have on and we are not busting the cache.
-        $cacheKey = self::class.'::get_'.$netid;
-        if ($bustCache) {
-            Cache::forget($cacheKey);
-        }
-        if ($cachedResult = Cache::get($cacheKey)) {
-            return $cachedResult;
-        }
-
-        if ($ldapData = self::find($netid)) {
-            Cache::put($cacheKey, $ldapData, now()->addSeconds(config('ldap.cache_seconds')));
-        }
-
-        return $ldapData;
-    }
-
-    /**
-     * @throws LdapDataException
-     */
-    public static function find(string $netid, ?bool $debug = false): ?self
-    {
-        $server = config('ldap.server');
-        $connection = ldap_connect($server);
-        if (! $connection) {
-            throw new LdapDataException('Could not connect to LDAP server.');
-        }
-
-        $result = ldap_bind_ext($connection, "uid=$netid", config('ldap.pass'));
-        if (! $result) {
-            throw new LdapDataException('Could not bind to LDAP server.');
-        }
-
-        $parsed_result = ldap_parse_result($connection, $result, $error_code, $matched_dn,
-            $error_message) ?: $error_message;
-        if ($parsed_result !== true) {
-            throw new LdapDataException("Error response from ldap_bind: $parsed_result");
-        }
-
-        try {
-            $result = ldap_search($connection, config('ldap.base_dn'), "uid=$netid");
-            if (! $result) {
-                return null;
-            }
-            $result_entry = ldap_first_entry($connection, $result);
-            if (! $result_entry) {
-                return null;
-            }
-            $response = ldap_get_attributes($connection, $result_entry);
-
-            if ($debug) {
-                dump(json_encode($response));
-            }
-            if (! $response) {
-                return null;
-            }
-            $data = self::parseResponse($response);
-        } catch (Exception $e) {
-            // $this->logError("Error in ldap_search for $netid: " . $e->getMessage());
-            throw new LdapDataException($e->getMessage());
-        }
-
-        // Load the data into an immutable object.
-        return self::make($data);
-    }
-
-    /**
-     * Parse a response from ldap_search into a simple array.
-     */
-    public static function parseResponse(?array $response = []): array
-    {
-        unset($response['dn']);
-        $data = [];
-        foreach ($response as $key => $value) {
-            if (is_numeric($key) || $key == 'count') {
-                continue;
-            }
-            if ($value['count'] == 1) {
-                $parsedValue = $value[0];
-            } else {
-                unset($value['count']);
-                $parsedValue = $value;
-            }
-            // Only populate the field if we have data.
-            if (! empty($parsedValue)) {
-                $data[$key] = $parsedValue;
-            }
-        }
-
-        return $data;
     }
 }

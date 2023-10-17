@@ -75,7 +75,7 @@ composer require --update-no-dev cornell-custom-dev/laravel-starter-kit
 The libraries included in the Starter Kit are documented in their respective README files:
 
 - [Contact/PhoneNumber](src/Contact/README.md): A library for parsing and formatting a phone number.
-- [Ldap/LdapData](src/Ldap/README.md): A service for retrieving Cornell University LDAP data.
+- [Ldap](src/Ldap/README.md): A service for retrieving Cornell University LDAP data.
 
 
 ## Deploying a site

@@ -17,6 +17,19 @@ class LdapDataServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->app->singleton(
+            abstract: LdapService::class,
+            concrete: fn () => new LdapService(
+                ldap: new Ldap(
+                    ldapUser: strval(config('ldap.user') ?: ''),
+                    ldapPass: strval(config('ldap.pass') ?: ''),
+                    ldapServer: strval(config('ldap.server') ?: ''),
+                    ldapBaseDn: strval(config('ldap.base_dn') ?: ''),
+                ),
+                cacheSeconds: intval(config('ldap.cache_seconds')),
+            ),
+        );
+
         if ($this->app->runningInConsole()) {
             $this->publishes(
                 paths: [

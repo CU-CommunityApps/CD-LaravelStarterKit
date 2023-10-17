@@ -30,7 +30,7 @@
     "laravel": {
       "providers": [
         "CornellCustomDev\\LaravelStarterKit\\StarterKitServiceProvider",
-        "CornellCustomDev\\LaravelStarterKit\\Ldap\\LdapDataServiceProvider"
+        "CornellCustomDev\\LaravelStarterKit\\LdapDataServiceProvider"
       ]
     }
   },
