@@ -42,6 +42,7 @@ class InstallStarterKitTest extends TestCase
         $this->assertFileDoesNotExist("$basePath/public/$themeName/sass/base.scss");
         $this->assertFileExists("$basePath/public/$themeName/favicon.ico");
         $this->assertFileExists("$basePath/resources/views/components/$themeName/layout/app.blade.php");
+        $this->assertFileExists("$basePath/resources/views/components/$themeName/form/form-item.blade.php");
         $this->assertFileExists("$basePath/resources/views/$themeName-index.blade.php");
         $this->assertStringContainsString(
             needle: $projectName,
