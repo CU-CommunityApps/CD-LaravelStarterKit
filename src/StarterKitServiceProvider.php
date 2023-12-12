@@ -13,7 +13,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
 {
     const PACKAGE_NAME = 'starterkit';
 
-    const THEME_NAME = 'cwd-framework';
+    const THEME_NAME = 'cd';
 
     const COMPOSER_NAMESPACE = 'cornell-custom-dev';
 
