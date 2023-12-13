@@ -111,7 +111,7 @@ class StarterKitServiceProvider extends PackageServiceProvider
         );
     }
 
-    public static function populatePlaceholders($files, string $projectName, string $projectDescription = null): void
+    public static function populatePlaceholders($files, string $projectName, ?string $projectDescription = null): void
     {
         $replacements = [
             ':project_name' => $projectName,
