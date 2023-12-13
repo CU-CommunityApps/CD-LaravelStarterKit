@@ -1,4 +1,4 @@
-<x-cd.layout.app title="Laraveltest" subtitle="Custom Development">
+<x-cd.layout.app title=":project_name" subtitle="Custom Development">
     <h1>Starter Template</h1>
     <p class="intro">A basic starting point for your HTML markup or theme templates</p>
     <p>This template has only baseline CSS and JavaScript loaded. A default right sidebar layout is used,
