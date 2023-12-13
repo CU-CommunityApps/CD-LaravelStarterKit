@@ -7,15 +7,15 @@
 
     <title>{{ $title }}</title>
 
-    <link rel="icon" href="{{ asset('cd/favicon.ico') }}" type="image/vnd.microsoft.icon"/>
+    <link rel="icon" href="{{ asset('cwd-framework/favicon.ico') }}" type="image/vnd.microsoft.icon"/>
 
-    <link href="{{ asset('cd/css/base.css') }}" rel="stylesheet">
-    <link href="{{ asset('cd/css/cornell.css') }}" rel="stylesheet">
-    <link href="{{ asset('cd/css/cwd_utilities.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/css/base.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/css/cornell.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/css/cwd_utilities.css') }}" rel="stylesheet">
 
     <!-- Activate for Cornell.edu typography and basic patterns -->
     <!-- <link rel="stylesheet" href="https://use.typekit.net/nwp2wku.css"> -->
-    <!-- <link href="{{ asset('cd/css/cwd_patterns.css') }}" rel="stylesheet"> -->
+    <!-- <link href="{{ asset('cwd-framework/css/cwd_patterns.css') }}" rel="stylesheet"> -->
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -23,8 +23,8 @@
     <![endif]-->
 
     <!-- Icon Fonts -->
-    <link href="{{ asset('cd/fonts/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('cd/fonts/material-design-iconic-font.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/fonts/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('cwd-framework/fonts/material-design-iconic-font.min.css') }}" rel="stylesheet">
 
     @livewireStyles
 </head>
@@ -57,8 +57,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <!-- CWD Components -->
-<script src="{{ asset('cd/js/cwd.js') }}"></script>
-<script src="{{ asset('cd/js/cwd_utilities.js') }}"></script>
+<script src="{{ asset('cwd-framework/js/cwd.js') }}"></script>
+<script src="{{ asset('cwd-framework/js/cwd_utilities.js') }}"></script>
 
 @livewireScripts
 </body>
