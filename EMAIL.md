@@ -53,13 +53,10 @@ You can  add Mailhog to you Lando app by adding an entry. to the `services` top 
 
 ```
   services:
-     myservice:
-       type: mailhog:v1.0.0
-       portforward: false
-       hogfrom:
-         - appserver
-    appserver:
-       type: laravel
+    mail:
+      type: mailhog
+      hogfrom:
+        - appserver
 ```
 
 See the Lando documentation for more details.
