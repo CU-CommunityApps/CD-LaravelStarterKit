@@ -94,7 +94,7 @@ using the `type` attribute, as in the following examples:
 
 
 ```
-    <x-cd.form.text type="search" field="search" label="Search" wire:model="search"/>
+    <x-cd.form.text type="search" label="Search" wire:model="search"/>
     <x-cd.form.text type="telephone" label="Telephone" wire:model="telephone"/>
     <x-cd.form.text type="url" label="URL" wire:model="url"/>
     <x-cd.form.text type="email" label="Email" wire:model="email"/>
@@ -113,14 +113,14 @@ A range input rendered as a slider may be specified using this special text inpu
 `max` and `min` attributes.
 
 ```
-    <x-cd.form.text type="range" field="range" required=1 label="Range" min=1 max=10 wire:model="range"/>
+    <x-cd.form.text type="range" required=1 label="Range" min=1 max=10 wire:model="range"/>
 ```       
 
 ## File
 
 The file selector input is also a variant of the text input.
 ```
-    <x-cd.form.text type="file" field="file" required=1 label="File" wire:model="file"/>
+    <x-cd.form.text type="file" required=1 label="File" wire:model="file"/>
 ```
 
 ## Color
@@ -128,7 +128,7 @@ The file selector input is also a variant of the text input.
 The color picker is also a variant of the text input.  Take care to initialize the value of this
 input to a valid `value`, which is a hash (#) character followed by six hexadecimal digits. 
 ```
-        <x-cd.form.text type="color" field="color" label="Color" wire:model="color" value="#ff0000"/>
+        <x-cd.form.text type="color" label="Color" wire:model="color" value="#ff0000"/>
 ```
         
 # Radio Buttons
@@ -136,7 +136,7 @@ input to a valid `value`, which is a hash (#) character followed by six hexadeci
 The `radios` component implements a set of related radio buttons defined by an array of options, as demonstrated below.</p>
 
 ```
-    <x-cd.form.radios field="radios" required=0 label="Radios" wire:model="radios" :radiobuttons="$radiooptions" />
+    <x-cd.form.radios required=0 label="Radios" wire:model="radios" :radiobuttons="$radiooptions" />
 ```
 
 # Submit, Reset and Cancel Buttons
