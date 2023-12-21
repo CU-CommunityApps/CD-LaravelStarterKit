@@ -56,7 +56,7 @@ $this->roleoptions = [
 ```
 
 ```
-    <x-cd.form.select :options="$roleoptions" required=1 label="Select" wire:model="role" />
+    <x-cd.form.select :options="$roleoptions" required="1" label="Select" wire:model="role" />
 ```
 You may add the attribute `multiple="multiple"` to create a multiselect.  Multiselect with groups are not yet supported.
 
@@ -113,14 +113,14 @@ A range input rendered as a slider may be specified using this special text inpu
 `max` and `min` attributes.
 
 ```
-    <x-cd.form.text type="range" required=1 label="Range" min=1 max=10 wire:model="range"/>
+    <x-cd.form.text type="range" required="1" label="Range" min="1" max="10" wire:model="range"/>
 ```       
 
 ## File
 
 The file selector input is also a variant of the text input.
 ```
-    <x-cd.form.text type="file" required=1 label="File" wire:model="file"/>
+    <x-cd.form.text type="file" required="1" label="File" wire:model="file"/>
 ```
 
 ## Color
@@ -136,7 +136,7 @@ input to a valid `value`, which is a hash (#) character followed by six hexadeci
 The `radios` component implements a set of related radio buttons defined by an array of options, as demonstrated below.</p>
 
 ```
-    <x-cd.form.radios required=0 label="Radios" wire:model="radios" :radiobuttons="$radiooptions" />
+    <x-cd.form.radios label="Radios" wire:model="radios" :radiobuttons="$radiooptions" />
 ```
 
 # Submit, Reset and Cancel Buttons
