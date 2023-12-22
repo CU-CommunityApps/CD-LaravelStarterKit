@@ -76,6 +76,11 @@ The libraries included in the Starter Kit are documented in their respective REA
 
 - [Contact/PhoneNumber](src/Contact/README.md): A library for parsing and formatting a phone number.
 
+## Components
+
+Blade components included in the Starter Kit are documented in their respective files:
+
+- [Form Components](src/FORM_COMPONENTS.md): A set of Blade components for creating form components styled with the CWD Framework.
 
 ## Deploying a site
 Once a Media3 site has been created, you have confirmed you can reach the default site via a web browser, and you have access to the site login by command line, the code can be deployed.
