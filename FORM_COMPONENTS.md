@@ -25,8 +25,8 @@ Here is an example of a simple form:
 
 The `name` and `id` attributes on the form inputs default to the same value as 
 that used in the `wire:model` attribute. You may supply different values for `name` and `id  `.
-Inputs are not required by default; you can supply the `required="1"` attribute if the input
-should be required.
+Inputs are not required by default; you can supply the `:required="true"` attribute if the input
+should be required for your form.
 
 Use the `description` attribute to provide additional instruction or formatting hints.  The description text is displayed below the input.  The component will add an `aria-describedby` attribute to the input to associate the description text with the input. 
 
