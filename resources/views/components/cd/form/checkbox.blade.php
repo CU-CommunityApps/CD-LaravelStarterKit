@@ -1,6 +1,6 @@
 <x-cd.form.form-item field="{{ $name ?? $attributes->whereStartsWith('wire:model')->first() }}" 
         classes="{{ $classes ?? '' }}" 
-        required="{{ $required ?? 0 }}"
+        required="{{ ($required === 'false') ? 0 : (boolval($required)?1:0) }}"
         description="{{ $description ?? ''}}"
 
 >
@@ -11,6 +11,9 @@
             value="{{ $value }}" 
             {{ $attributes->whereStartsWith('wire:model') }}
             {{ $attributes->whereStartsWIth('aria')  }}
+            @if (!empty($description))
+                aria-describedby="{{ $name ?? $attributes->whereStartsWith('wire:model')->first() }}_desc"
+            @endif
         />
         <label class="option-label" for="{{$field}}">{{$label}}</label>
     </div>

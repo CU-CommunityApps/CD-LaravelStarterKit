@@ -1,6 +1,6 @@
 <x-cd.form.form-item field="{{ $name ?? $attributes->whereStartsWith('wire:model')->first() }}" 
         classes="{{ $classes ?? '' }}" 
-        required="{{ $required ?? 0 }}"
+        required="{{ ($required === 'false') ? 0 : (boolval($required)?1:0) }}"
         description="{{ $description ?? ''}}"
 >
     <x-slot name="field_title">{{ $label }}</x-slot>
