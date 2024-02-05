@@ -19,6 +19,6 @@
                 aria-describedby="{{ $field }}_desc"
             @endif
         />
-        <span class="option-label" for="{{$field}}">{{$description}}</span>
+        <span class="option-label" for="{{$field}}">{!!$description!!}</span>
     </div>
 </x-cd.form.form-item>
