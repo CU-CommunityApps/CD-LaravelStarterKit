@@ -63,12 +63,18 @@ You may add the attribute `multiple="multiple"` to create a multiselect.  Multis
 ## Checkbox
 
 The checkbox component implements a single checkbox (see Checkboxes for multiple checkboxes).
-The checkbox component needs a value to return when the box is checked. 
+The checkbox component needs a value to return when the box is checked.  The checkbox-inline variant places the label next to the checkbox input rather than above it. 
+
+Note: single checkboxes cannot be required.
 
 ```
-    <x-cd.form.checkbox label="Subscribe" value="1" wire:model="subscribe" />
+    <x-cd.form.checkbox label="Subscription" text="Subscribe" value="1" wire:model="subscribe" />
 ```
 
+```
+    <x-cd.form.checkbox-inline label="Subscribe" value="1" wire:model="subscribe"
+       description="Annual Subscription at a 10% discount" />
+```
 ## Checkboxes
 
 The checkboxes component implements a set of related checkboxes which are bound to one Livewire variable. 
