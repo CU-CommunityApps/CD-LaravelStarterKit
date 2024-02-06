@@ -72,8 +72,7 @@ Note: single checkboxes cannot be required.
 ```
 
 ```
-    <x-cd.form.checkbox-inline label="Subscribe" value="1" wire:model="subscribe"
-       description="Annual Subscription at a 10% discount" />
+    <x-cd.form.checkbox-inline name="inline" value="1" label="Select me" description="description" wire:model="subscribe"/>
 ```
 ## Checkboxes
 

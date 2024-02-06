@@ -1,8 +1,7 @@
 <x-cd.form.form-item field="{{ $name ?? $attributes->whereStartsWith('wire:model')->first() }}" 
         classes="{{ $classes ?? '' }}" 
         required="false"
-        :description="''"
-
+        :description="$description??''"
 >
 @php 
   $field = $name ?? $attributes->whereStartsWith('wire:model')->first();
@@ -19,6 +18,6 @@
                 aria-describedby="{{ $field }}_desc"
             @endif
         />
-        <span class="option-label" for="{{$field}}">{!!$description!!}</span>
+        <span class="option-label" for="{{$field}}">{!!$text??''!!}</span>
     </div>
 </x-cd.form.form-item>

@@ -12,6 +12,8 @@
             aria-describedby="{{ $field }}_desc"
         @endif
     />
-    <label class="option-label" id="{{$field_desc}}">{{$label}}</label>
-    <div class="description">$description</div>
+    <label class="option-label" id="{{$field}}_desc">{{$label}}</label>
+    @if (!empty($description))
+    <div class="description">{{$description}}</div>
+    @endif
 </div>

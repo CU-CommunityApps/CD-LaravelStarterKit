@@ -11,10 +11,11 @@
         </label>
 
         {{ $slot }}
-    </div>
     @if (!empty($description))
         <div class="description" id="{{$field}}_desc">{!!$description!!}</div>   
     @endif
+    </div>
+
     @error($field)
     <div class="error" role="alert">
         {!! $message !!}
