@@ -1,6 +1,6 @@
 <x-cd.form.form-item field="{{ $name ?? $attributes->whereStartsWith('wire:model')->first() }}" 
         classes="{{ $classes ?? '' }}" 
-        required="false"
+        :required="false"
         :description="$description??''"
 >
 @php 
