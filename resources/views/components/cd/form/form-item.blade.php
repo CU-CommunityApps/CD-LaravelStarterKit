@@ -6,7 +6,7 @@
         for="{{ $field }}"
         @if($is_required) aria-required="true" @endif
     >
-        @if ($is_required) <span style="color:red";>* </span> @endif {!! $field_title !!}:
+        @if ($is_required) <span style="color:red";>* </span> @endif {!! $field_title !!}
     </label>
     {{ $slot }}
 @if (!empty($description))
