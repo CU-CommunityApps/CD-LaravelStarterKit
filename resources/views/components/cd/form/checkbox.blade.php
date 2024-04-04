@@ -10,7 +10,7 @@
     <input type="checkbox" id="{{ $id ?? $field }}" 
         name="{{ $field }}"
         value="{{ $value }}" 
-        {{ $attributes->whereStartsWith('wire:model') }}
+        {{ $attributes->whereStartsWith('wire') }}
         {{ $attributes->whereStartsWith('aria')  }}
         {{ $attributes->whereStartsWith('checked')  }}
         @if (!empty($description))

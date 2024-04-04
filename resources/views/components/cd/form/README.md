@@ -67,12 +67,14 @@ The checkbox component needs a value to return when the box is checked.  The che
 
 Note: single checkboxes cannot be required.
 
+Note: In Livewire 3, wire:model passes a boolean value to the server based on whether a checkbox is clicked or not.  If you need to pass a different (e.g., numeric) value, use wire:click instead. 
+
 ```
-    <x-cd.form.checkbox label="Subscription" text="Subscribe" value="1" wire:model="subscribe" />
+    <x-cd.form.checkbox label="Subscription" text="Subscribe" wire:model="subscribe" />
 ```
 
 ```
-    <x-cd.form.checkbox-inline name="inline" value="1" label="Select me" description="description" wire:model="subscribe"/>
+    <x-cd.form.checkbox-inline name="inline"  label="Select me" description="description" wire:model="subscribe"/>
 ```
 ## Checkboxes
 
