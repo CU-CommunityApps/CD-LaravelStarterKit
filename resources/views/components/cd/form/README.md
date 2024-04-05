@@ -15,8 +15,8 @@ Here is an example of a simple form:
 <x-cd.form.form legend="Simple form" wire:submit="submit">
   <x-cd.form.text label="Name" wire:model.live="name"/>
   <div>
-    <x-cd.form.submitbutton/>
-    <x-cd.form.resetbutton/>
+    <x-cd.form.submit-button/>
+    <x-cd.form.reset-button/>
   </div>
 </x-cd.form.form>
 ```
@@ -170,9 +170,9 @@ The cancel button requires a `wire:click` or `x-on:click` attribute to specify t
 taken when the button is pressed. 
 
 ```
-    <x-cd.form.submitbutton />
-    <x-cd.form.resetbutton />
-    <x-cd.form.cancelbutton wire:click"closemodal">
+    <x-cd.form.submit-button />
+    <x-cd.form.reset-button />
+    <x-cd.form.cancel-button wire:click"closemodal">
 ```
 
 
