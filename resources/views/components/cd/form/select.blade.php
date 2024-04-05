@@ -7,20 +7,20 @@
   $field=$name ?? $attributes->whereStartsWith('wire:model')->first();
 @endphp
     <x-slot name="field_title">{!! $label !!}</x-slot>
-    <input  type="{{$type??'text'}}" 
-            id="{{ $id ?? $field }}" 
+    <select id="{{ $id ?? $field }}" 
             name="{{ $field }}"
-        {{-- type: can be text, number, date, datetime, datetime-local, month, week, time, range, color --}}
-        class="{{$class??''}}"   
-        {{$attributes->only("min")}}
-        {{$attributes->only("max")}}
-        {{$attributes->only("step")}}
-        {{$attributes->only("size")}}
-        {{$attributes->only("placeholder")}}
-        {{$attributes->whereStartsWIth('wire:model')}}
+        @if ($disabled??false)
+            disabled
+        @endif
+        {{$attributes->only("multiple")}}
+        {{$attributes->whereStartsWith("wire:model")}}
         {{$attributes->whereStartsWIth('aria')}}
         @if (!empty($description))
           aria-describedby="{{ $field }}_desc"
         @endif
     />
+    @foreach ($options as $opt)
+        <option value="{{$opt['value']}}" @disabled($opt['disabled'] ?? false) @selected($opt["selected"] ?? false)>{{$opt['option']}}</option>
+    @endforeach
+    </select>
 </x-cd.form.form-item>
