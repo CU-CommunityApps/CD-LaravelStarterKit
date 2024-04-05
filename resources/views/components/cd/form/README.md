@@ -158,6 +158,7 @@ The `radios` component implements a set of related radio buttons defined by an a
 ```
     <x-cd.form.radios label="Radios" wire:model.live="radios" :radiobuttons="$radiooptions" />
 ```
+Using `inline=1` alows the radio buttons to be displayed inline with flexbox. 
 
 # Submit, Reset and Cancel Buttons
 
