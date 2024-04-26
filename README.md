@@ -116,6 +116,12 @@ APP_URL=https://test.your-site.edu
 ```
 If you visit your site now, you should see the Laravel site working.
 
+Optional:
+   To publish the configuration file for the Starter Kit
+   ```shell
+   php artisan vendor:publish --tag="starterkit-config"
+   ```
+
 ## Contributing
 
 Anyone on the Custom Development team should be welcome and able to contribute. See [CONTRIBUTING](CONTRIBUTING.md) for details on how be involved and provide quality contributions.
